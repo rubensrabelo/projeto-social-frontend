@@ -1,0 +1,31 @@
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.input {
+  height: 40px;
+  padding: 8px 12px;
+
+  border: 2px solid #2c6bed;
+  border-radius: 10px;
+
+  font-size: 1rem;
+  color: #222;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #1a4dcc;
+  box-shadow: 0 0 4px rgba(42, 108, 237, 0.4);
+}
