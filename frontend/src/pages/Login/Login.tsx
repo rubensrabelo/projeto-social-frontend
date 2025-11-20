@@ -6,18 +6,29 @@ import styles from "./LoginPage.module.css";
 import logo from "../../assets/logo-eeep.webp";
 import Input from "../../Components/Input/Input";
 
+type LoginForm = {
+  matricula: string;
+  email: string;
+  senha: string;
+};
+
 export default function Login() {
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type");
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<LoginForm>({
     matricula: "",
     email: "",
     senha: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = () => {

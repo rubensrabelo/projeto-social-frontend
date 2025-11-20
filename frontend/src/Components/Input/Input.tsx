@@ -9,11 +9,16 @@ interface Props {
 }
 
 export default function Input({ label, name, type = "text", value, onChange }: Props) {
+  const id = `${name}-input`;
+
   return (
     <div className={styles.inputGroup}>
-      <label className={styles.label}>{label}</label>
+      <label className={styles.label} htmlFor={id}>
+        {label}
+      </label>
 
       <input
+        id={id}
         type={type}
         name={name}
         value={value}
