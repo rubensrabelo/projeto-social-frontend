@@ -10,22 +10,22 @@
 
 ### **2. Autenticação**
 #### **2.1 Login do Professor**
-* [ ] Implementar fluxo de login do professor
-* [ ] Testes unitários e de integração
+* [x] Implementar fluxo de login do professor
+* [x] Testes unitários e de integração
 
 #### **2.2 Login do Coordenador**
-* [ ] Implementar fluxo de login do coordenador
-* [ ] Testes unitários e de integração
+* [x] Implementar fluxo de login do coordenador
+* [x] Testes unitários e de integração
 
 #### **2.3 Login do Aluno**
-* [ ] Implementar fluxo de login do aluno
-* [ ] Testes unitários e de integração
+* [x] Implementar fluxo de login do aluno
+* [x] Testes unitários e de integração
 
 ---
 
 ### **3. Home do Professor**
-* [ ] Criar página inicial do professor com **cards** das funcionalidades
-* [ ] Testes unitários e de integração
+* [x] Criar página inicial do professor com **cards** das funcionalidades
+* [x] Testes unitários e de integração
 
 ---
 

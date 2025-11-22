@@ -4,6 +4,8 @@ import Login from "../../../pages/Login/Login";
 
 let mockType: string | null = "aluno";
 
+const mockNavigate = vi.fn();
+
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual<any>("react-router-dom");
 
@@ -19,17 +21,18 @@ vi.mock("react-router-dom", async () => {
       },
     ],
 
+    useNavigate: () => mockNavigate,
+
     Link: ({ to, children }: any) => <a href={to}>{children}</a>,
-    useNavigate: () => vi.fn(),
   };
 });
 
 const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
 
 describe("LoginPage", () => {
-
   beforeEach(() => {
     consoleSpy.mockClear();
+    mockNavigate.mockClear();
   });
 
   test("mostra mensagem de erro quando type é inválido", () => {
@@ -69,6 +72,7 @@ describe("LoginPage", () => {
     fireEvent.click(button);
 
     expect(consoleSpy).toHaveBeenCalledWith("Login aluno:", "12345");
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 
   test("executa login de professor com email e senha", () => {
@@ -76,14 +80,15 @@ describe("LoginPage", () => {
 
     render(<Login />);
 
-    const emailInput = screen.getByLabelText("Email");
-    fireEvent.change(emailInput, { target: { value: "prof@teste.com" } });
+    fireEvent.change(screen.getByLabelText("Email"), {
+      target: { value: "prof@teste.com" },
+    });
 
-    const passwordInput = screen.getByLabelText("Senha");
-    fireEvent.change(passwordInput, { target: { value: "1234" } });
+    fireEvent.change(screen.getByLabelText("Senha"), {
+      target: { value: "1234" },
+    });
 
-    const button = screen.getByRole("button", { name: "Entrar" });
-    fireEvent.click(button);
+    fireEvent.click(screen.getByRole("button", { name: "Entrar" }));
 
     expect(consoleSpy).toHaveBeenCalledWith(
       "Login prof/coord:",
@@ -92,28 +97,20 @@ describe("LoginPage", () => {
     );
   });
 
-  test("renderiza email e senha quando type=coordenador", () => {
-    mockType = "coordenador";
-
-    render(<Login />);
-
-    expect(screen.getByText("Email")).toBeInTheDocument();
-    expect(screen.getByText("Senha")).toBeInTheDocument();
-  });
-
   test("executa login de coordenador com email e senha", () => {
     mockType = "coordenador";
 
     render(<Login />);
 
-    const emailInput = screen.getByLabelText("Email");
-    fireEvent.change(emailInput, { target: { value: "coord@teste.com" } });
+    fireEvent.change(screen.getByLabelText("Email"), {
+      target: { value: "coord@teste.com" },
+    });
 
-    const passwordInput = screen.getByLabelText("Senha");
-    fireEvent.change(passwordInput, { target: { value: "1234" } });
+    fireEvent.change(screen.getByLabelText("Senha"), {
+      target: { value: "1234" },
+    });
 
-    const button = screen.getByRole("button", { name: "Entrar" });
-    fireEvent.click(button);
+    fireEvent.click(screen.getByRole("button", { name: "Entrar" }));
 
     expect(consoleSpy).toHaveBeenCalledWith(
       "Login prof/coord:",
@@ -151,4 +148,53 @@ describe("LoginPage", () => {
     expect(link).toBeNull();
   });
 
+  test("navega para home quando professor faz login", () => {
+    mockType = "professor";
+
+    render(<Login />);
+
+    fireEvent.change(screen.getByLabelText("Email"), {
+      target: { value: "prof@teste.com" },
+    });
+
+    fireEvent.change(screen.getByLabelText("Senha"), {
+      target: { value: "1234" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Entrar" }));
+
+    expect(mockNavigate).toHaveBeenCalledWith("/home?type=professor");
+  });
+
+  test("navega para home quando coordenador faz login", () => {
+    mockType = "coordenador";
+
+    render(<Login />);
+
+    fireEvent.change(screen.getByLabelText("Email"), {
+      target: { value: "coord@teste.com" },
+    });
+
+    fireEvent.change(screen.getByLabelText("Senha"), {
+      target: { value: "1234" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Entrar" }));
+
+    expect(mockNavigate).toHaveBeenCalledWith("/home?type=coordenador");
+  });
+
+  test("aluno NÃO navega", () => {
+    mockType = "aluno";
+
+    render(<Login />);
+
+    fireEvent.change(screen.getByRole("textbox"), {
+      target: { value: "9999" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Entrar" }));
+
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
 });

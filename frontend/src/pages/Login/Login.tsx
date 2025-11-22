@@ -1,4 +1,4 @@
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 
 import styles from "./LoginPage.module.css";
@@ -13,6 +13,7 @@ type LoginForm = {
 };
 
 export default function Login() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type");
 
@@ -34,9 +35,13 @@ export default function Login() {
   const handleSubmit = () => {
     if (type === "aluno") {
       console.log("Login aluno:", form.matricula);
-    } else {
-      console.log("Login prof/coord:", form.email, form.senha);
+      alert("Login de aluno ainda não implementado.");
+      return;
     }
+
+    console.log("Login prof/coord:", form.email, form.senha);
+
+    navigate(`/home?type=${type}`);
   };
 
   if (!type) return <h3>Tipo de usuário inválido.</h3>;
@@ -79,18 +84,13 @@ export default function Login() {
           Entrar
         </button>
 
-        {
-          type !== "aluno" 
-          &&
-          <>
-            <div className={styles.forgotPassword}>
-                <Link to={`/recover-password?type=${type}`}>
-                  Esqueceu sua senha?
-                </Link>
-            </div>
-          </>
-        }
-
+        {type !== "aluno" && (
+          <div className={styles.forgotPassword}>
+            <Link to={`/recover-password?type=${type}`}>
+              Esqueceu sua senha?
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
