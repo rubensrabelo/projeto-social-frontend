@@ -4,6 +4,7 @@ import Login from "../pages/Login/Login";
 import ForgotPassword from "../pages/ForgotPassword/ForgotPassword";
 import Home from "../pages/Home/Home";
 import ProtectedLayout from "../Layout/ProtectedLayout";
+import Questions from "../pages/Questions/Questions";
 
 function AppRouter() {
     return (
@@ -14,8 +15,9 @@ function AppRouter() {
                 <Route path="/recover-password" element={<ForgotPassword />} />
 
 
-                <Route path="/app" element={<ProtectedLayout />}>
+                <Route path="/" element={<ProtectedLayout />}>
                     <Route path="home" element={<Home />} />
+                    <Route path="questions" element={<Questions />} />
                 </Route>
             </Routes>
         </BrowserRouter>

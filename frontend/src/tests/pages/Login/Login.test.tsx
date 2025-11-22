@@ -163,7 +163,7 @@ describe("LoginPage", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Entrar" }));
 
-    expect(mockNavigate).toHaveBeenCalledWith("/app/home?type=professor");
+    expect(mockNavigate).toHaveBeenCalledWith("/home?type=professor");
   });
 
   test("navega para home quando coordenador faz login", () => {
@@ -181,7 +181,7 @@ describe("LoginPage", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "Entrar" }));
 
-    expect(mockNavigate).toHaveBeenCalledWith("/app/home?type=coordenador");
+    expect(mockNavigate).toHaveBeenCalledWith("/home?type=coordenador");
   });
 
   test("aluno NÃO navega", () => {

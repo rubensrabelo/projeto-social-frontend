@@ -4,7 +4,7 @@ import Home from "../../../pages/Home/Home";
 
 let mockType: string | null = "professor";
 
-const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+const mockNavigate = vi.fn();
 
 vi.mock("react-router-dom", async () => {
   const actual = await vi.importActual<any>("react-router-dom");
@@ -20,6 +20,8 @@ vi.mock("react-router-dom", async () => {
         },
       },
     ],
+
+    useNavigate: () => mockNavigate,
   };
 });
 
@@ -32,10 +34,10 @@ vi.mock("../../Components/CardOption/CardOption", () => ({
 
 describe("Home Page", () => {
   beforeEach(() => {
-    consoleSpy.mockClear();
+    mockNavigate.mockClear();
   });
 
-  test("exibe mensagem de erro se o type for inválido", () => {
+  test("exibe mensagem de erro quando o type é inválido", () => {
     mockType = null;
 
     render(<Home />);
@@ -43,49 +45,56 @@ describe("Home Page", () => {
     expect(screen.getByText("Tipo de usuário inválido.")).toBeInTheDocument();
   });
 
-  test("renderiza opções corretas quando type=professor", () => {
+  test("renderiza opções corretas quando type = professor", () => {
     mockType = "professor";
 
     render(<Home />);
 
     expect(screen.getByText("Bem-vindo Professor!")).toBeInTheDocument();
 
-    // Professor vê 3 cards
     expect(screen.getByText("Minhas Questões")).toBeInTheDocument();
     expect(screen.getByText("Minhas Provas")).toBeInTheDocument();
     expect(screen.getByText("Relatórios")).toBeInTheDocument();
   });
 
-  test("clicar em 'Minhas Questões' dispara o console esperado", () => {
+  test("navega para /questions ao clicar em 'Minhas Questões'", () => {
     mockType = "professor";
 
     render(<Home />);
 
-    const btn = screen.getByText("Minhas Questões");
-    fireEvent.click(btn);
+    fireEvent.click(screen.getByText("Minhas Questões"));
 
-    expect(consoleSpy).toHaveBeenCalledWith("Questões");
+    expect(mockNavigate).toHaveBeenCalledWith("/questions");
   });
 
-  test("clicar em 'Relatórios' dispara o console esperado", () => {
+  test("navega para /tests ao clicar em 'Minhas Provas'", () => {
     mockType = "professor";
 
     render(<Home />);
 
-    const btn = screen.getByText("Relatórios");
-    fireEvent.click(btn);
+    fireEvent.click(screen.getByText("Minhas Provas"));
 
-    expect(consoleSpy).toHaveBeenCalledWith("Relatórios");
+    expect(mockNavigate).toHaveBeenCalledWith("/tests");
   });
 
-  test("renderiza opções corretas quando type=coordenador", () => {
+  test("navega para /reports ao clicar em 'Relatórios'", () => {
+    mockType = "professor";
+
+    render(<Home />);
+
+    fireEvent.click(screen.getByText("Relatórios"));
+
+    expect(mockNavigate).toHaveBeenCalledWith("/reports");
+  });
+
+  // ───────────────────────────────────────────────
+  test("renderiza opções corretas quando type = coordenador", () => {
     mockType = "coordenador";
 
     render(<Home />);
 
     expect(screen.getByText("Bem-vindo Coordenador!")).toBeInTheDocument();
 
-    // Coordenador vê apenas 2 cards
     expect(screen.getByText("Gerenciar Turmas")).toBeInTheDocument();
     expect(screen.getByText("Relatórios")).toBeInTheDocument();
 
@@ -93,18 +102,28 @@ describe("Home Page", () => {
     expect(screen.queryByText("Minhas Provas")).toBeNull();
   });
 
-  test("clicar em 'Gerenciar Turmas' dispara o console esperado", () => {
+  // ───────────────────────────────────────────────
+  test("navega para /classes ao clicar em 'Gerenciar Turmas'", () => {
     mockType = "coordenador";
 
     render(<Home />);
 
-    const btn = screen.getByText("Gerenciar Turmas");
-    fireEvent.click(btn);
+    fireEvent.click(screen.getByText("Gerenciar Turmas"));
 
-    expect(consoleSpy).toHaveBeenCalledWith("Gerenciar Turmas");
+    expect(mockNavigate).toHaveBeenCalledWith("/classes");
   });
 
-  test("não permite card de professor quando type=coordenador", () => {
+  test("coordenador também navega para /reports ao clicar em 'Relatórios'", () => {
+    mockType = "coordenador";
+
+    render(<Home />);
+
+    fireEvent.click(screen.getByText("Relatórios"));
+
+    expect(mockNavigate).toHaveBeenCalledWith("/reports");
+  });
+
+  test("não renderiza cards de professor quando type = coordenador", () => {
     mockType = "coordenador";
 
     render(<Home />);

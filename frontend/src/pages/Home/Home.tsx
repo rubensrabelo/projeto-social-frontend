@@ -1,10 +1,12 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import CardOption from "../../Components/CardOption/CardOption";
 
 import styles from "./Home.module.css";
 
 export default function Home() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  
   const type = searchParams.get("type");
 
   if (!type || (type !== "professor" && type !== "coordenador")) {
@@ -28,13 +30,13 @@ export default function Home() {
             <CardOption
               title="Minhas Questões"
               image="/img/questoes.png"
-              onClick={() => console.log("Questões")}
+              onClick={() => navigate("/questions")}
             />
 
             <CardOption
               title="Minhas Provas"
               image="/img/prova.png"
-              onClick={() => console.log("Provas")}
+              onClick={() => navigate("/tests")}
             />
           </>
         )}
@@ -43,14 +45,14 @@ export default function Home() {
           <CardOption
             title="Gerenciar Turmas"
             image="/img/turma.png"
-            onClick={() => console.log("Gerenciar Turmas")}
+            onClick={() => navigate("/classes")}
           />
         )}
 
         <CardOption
           title="Relatórios"
           image="/img/relatorio.png"
-          onClick={() => console.log("Relatórios")}
+          onClick={() => navigate("/reports")}
         />
 
       </div>

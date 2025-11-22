@@ -1,0 +1,163 @@
+/* BACKGROUND GLOBAL */
+.container {
+  background-color: #DDFFE6;
+  min-height: 100vh;
+  padding: 30px;
+  font-family: Arial, sans-serif;
+}
+/* BOTÃO VOLTAR */
+.backBtn {
+  background: #004940;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 15px;
+  transition: 0.2s;
+}
+
+.backBtn:hover {
+  background: #00352e;
+}
+
+/* TÍTULO */
+.title {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #004940;
+  font-weight: bold;
+}
+
+/* FILTROS */
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.filters select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #bbb;
+  background: white;
+  transition: 0.2s;
+}
+
+.filters select:hover {
+  border-color: #00695c;
+}
+
+/* BOTÃO CRIAR NOVA */
+.newBtn {
+  padding: 10px 16px;
+  background: #00695c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: bold;
+}
+.newBtn:hover {
+  background: #004940;
+}
+
+/* BOX DE CRIAÇÃO */
+.createBox {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid #cde5d7;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.createBox input,
+.createBox select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.createActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.createActions button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.createActions button:first-child {
+  background: #ccc;
+}
+
+.createActions button:last-child {
+  background: #00897b;
+  color: white;
+  font-weight: bold;
+}
+
+.createActions button:last-child:hover {
+  background: #00695c;
+}
+
+/* TABELA */
+.tableWrapper {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #cde5d7;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  background: #004940;
+  color: white;
+  padding: 12px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.editBtn {
+  background: #ffd54f;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin-right: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.deleteBtn {
+  background: #e53935;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+.deleteBtn:hover {
+  background: #c62828;
+}

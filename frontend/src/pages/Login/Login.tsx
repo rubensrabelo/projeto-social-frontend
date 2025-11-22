@@ -41,7 +41,7 @@ export default function Login() {
 
     console.log("Login prof/coord:", form.email, form.senha);
 
-    navigate(`/app/home?type=${type}`);
+    navigate(`/home?type=${type}`);
   };
 
   if (!type) return <h3>Tipo de usuário inválido.</h3>;
