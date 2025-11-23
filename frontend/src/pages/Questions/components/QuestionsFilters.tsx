@@ -13,10 +13,10 @@ export default function QuestionsFilters({ filters, setFilters, openCreateForm }
         value={filters.year}
         onChange={(e) => setFilters({ ...filters, year: e.target.value })}
       >
-        <option value="">Ano</option>
-        <option value="2025">2025</option>
-        <option value="2024">2024</option>
-        <option value="2023">2023</option>
+        <option value="">Série</option>
+        <option value="1">1º Ano</option>
+        <option value="2">2º Ano</option>
+        <option value="3">3º Ano</option>
       </select>
 
       <select
@@ -28,6 +28,7 @@ export default function QuestionsFilters({ filters, setFilters, openCreateForm }
         <option value="Ciências da Natureza">Ciências da Natureza</option>
         <option value="Matemática">Matemática</option>
         <option value="Linguagens">Linguagens</option>
+        <option value="Base Técnica">Base Técnica</option>
       </select>
 
       <select

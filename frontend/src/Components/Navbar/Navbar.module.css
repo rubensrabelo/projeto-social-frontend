@@ -8,6 +8,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
 
   padding: 0 26px;
 
@@ -20,7 +21,7 @@
 .left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 18px;
 }
 
 .logo {
@@ -32,15 +33,16 @@
 }
 
 .systemName {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
   letter-spacing: 0.6px;
+  font-family: poppins, sans-serif;
 }
 
 .right {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
   position: relative;
 }
 

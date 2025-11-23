@@ -79,10 +79,10 @@ export default function QuestionCreateForm({
             value={newQuestion.year}
             onChange={(e) => update("year", e.target.value)}
           >
-            <option value="">Ano</option>
-            <option value="2025">2025</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
+            <option value="">Série</option>
+        <option value="1">1º Ano</option>
+        <option value="2">2º Ano</option>
+        <option value="3">3º Ano</option>
           </select>
 
           <select

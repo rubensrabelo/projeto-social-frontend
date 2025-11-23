@@ -18,7 +18,7 @@
 }
 
 .backBtn:hover {
-  background: #024e45;
+  background: #1B876C;
 }
 
 .title {
@@ -49,7 +49,7 @@
 
 .newBtn {
   padding: 13px 22px;
-  background: #028f7b;
+  background: #004940;
   color: #fff;
   border: none;
   border-radius: 12px;
@@ -60,7 +60,7 @@
 }
 
 .newBtn:hover {
-  background: #03695b;
+  background: #1B876C;
 }
 
 .modalOverlay {
@@ -144,6 +144,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  color: #004940
 }
 
 .modalActions {
@@ -168,7 +169,7 @@
 }
 
 .modalSave {
-  background: #00a28c;
+  background: #004940;
   color: white;
   padding: 10px 24px;
   border-radius: 12px;

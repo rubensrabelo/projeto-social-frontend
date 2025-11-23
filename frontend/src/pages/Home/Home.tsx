@@ -1,6 +1,10 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import CardOption from "../../Components/CardOption/CardOption";
 
+import questoes from "../../assets/question_icon.svg";
+import provas from "../../assets/tests_icon.svg";
+import relatorio from "../../assets/report_icon.svg";
+
 import styles from "./Home.module.css";
 
 export default function Home() {
@@ -29,13 +33,13 @@ export default function Home() {
           <>
             <CardOption
               title="Minhas Questões"
-              image="/img/questoes.png"
+              image={questoes}
               onClick={() => navigate("/questions")}
             />
 
             <CardOption
               title="Minhas Provas"
-              image="/img/prova.png"
+              image={provas}
               onClick={() => navigate("/tests")}
             />
           </>
@@ -51,7 +55,7 @@ export default function Home() {
 
         <CardOption
           title="Relatórios"
-          image="/img/relatorio.png"
+          image={relatorio}
           onClick={() => navigate("/reports")}
         />
 

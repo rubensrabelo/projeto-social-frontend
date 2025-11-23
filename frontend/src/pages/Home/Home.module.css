@@ -18,10 +18,12 @@
   color: #004940;
   margin-bottom: 10px;
   text-align: center;
+  font-family: poppins, sans-serif;
 }
 
 .subtitle {
   font-size: 22px;
+  font-family: poppins, sans-serif;
   color: #006b58;
   margin-bottom: 40px;
   text-align: center;

@@ -3,7 +3,7 @@
   height: 220px;
 
   background: #ffffff;
-  border: 2px solid #2c6bed;
+  border: 2px solid #546068;
   border-radius: 18px;
 
   display: flex;
@@ -18,13 +18,14 @@
     box-shadow 0.2s ease,
     border-color 0.2s ease;
 
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.10);
+  box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.50);
 }
 
 .cardOption:hover {
   transform: translateY(-6px);
-  border-color: #1a4dcc;
+  border-color: #1B876C;
   box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.18);
+  background-color: #DDFFE6;
 }
 
 .cardOption:active {
@@ -40,6 +41,7 @@
 
 .cardTitle {
   font-size: 1.25rem;
+  font-family: poppins, sans-serif;
   font-weight: 600;
   color: #2b2b2b;
   text-align: center;

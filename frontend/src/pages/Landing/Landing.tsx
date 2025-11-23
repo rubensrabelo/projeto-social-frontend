@@ -2,6 +2,8 @@ import styles from "./Landing.module.css";
 import CardOption from "../../Components/CardOption/CardOption";
 
 import logo from "../../assets/logo-eeep.webp";
+import usuario_icon from "../../assets/user-fill.svg";
+
 import { useNavigate } from "react-router-dom";
 
 export default function LandingPage() {
@@ -22,17 +24,17 @@ export default function LandingPage() {
       <div className={styles.cardContainer}>
         <CardOption
           title="Aluno"
-          image="/img/aluno.png"
+          image={usuario_icon}
           onClick={() => handleSelect("aluno")}
         />
         <CardOption
           title="Professor"
-          image="/img/professor.png"
+          image={usuario_icon}
           onClick={() => handleSelect("professor")}
         />
         <CardOption
           title="Coordenador"
-          image="/img/coordenador.png" 
+          image={usuario_icon}
           onClick={() => handleSelect("coordenador")}
         />
       </div>

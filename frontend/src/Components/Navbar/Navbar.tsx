@@ -2,9 +2,9 @@ import { useState } from "react";
 import styles from "./Navbar.module.css";
 
 import logo from "../../assets/logo-eeep.webp"
-import notification from "../../assets/icon_notification.png"
-import profile from "../../assets/icon_profile.png"
-import menu from "../../assets/icon_menu.png"
+import notification from "../../assets/notification_icon.svg"
+import profile from "../../assets/user-profile.svg"
+import menu from "../../assets/profile_options.svg"
 
 export default function Navbar() {
   const [openMenu, setOpenMenu] = useState(false);
