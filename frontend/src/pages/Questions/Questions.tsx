@@ -24,6 +24,8 @@ export default function Questions() {
       statement: "Explique o comportamento da função afim.",
       subject: "Matemática",
       type: "multiple",
+      options: { A: "Cresce", B: "Decresce", C: "Constante", D: "Outro" },
+      correct: "A",
     },
   ]);
 

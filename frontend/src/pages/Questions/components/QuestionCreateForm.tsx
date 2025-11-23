@@ -23,7 +23,6 @@ export default function QuestionCreateForm({
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalBox}>
-
         <div className={styles.modalScroll}>
           <h2 className={styles.modalTitle}>
             {isEdit ? "Editar Questão" : "Criar Nova Questão"}
@@ -42,6 +41,30 @@ export default function QuestionCreateForm({
             value={newQuestion.statement}
             onChange={(e) => update("statement", e.target.value)}
           />
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                update("imageFile", file);
+                update("imagePreview", URL.createObjectURL(file));
+              }
+            }}
+          />
+          {newQuestion.imagePreview && (
+            <img
+              src={newQuestion.imagePreview}
+              alt="Preview"
+              style={{
+                maxWidth: "100%",
+                maxHeight: "200px",
+                marginTop: "10px",
+                borderRadius: "8px",
+              }}
+            />
+          )}
 
           <select
             value={newQuestion.type}
@@ -87,7 +110,6 @@ export default function QuestionCreateForm({
           {newQuestion.type === "multiple" && (
             <div className={styles.multipleBox}>
               <h4>Alternativas</h4>
-
               {["A", "B", "C", "D"].map((opt) => (
                 <input
                   key={opt}
@@ -102,7 +124,6 @@ export default function QuestionCreateForm({
                   }
                 />
               ))}
-
               <select
                 value={newQuestion.correct ?? ""}
                 onChange={(e) => update("correct", e.target.value)}
@@ -131,7 +152,6 @@ export default function QuestionCreateForm({
           <button className={styles.modalCancel} onClick={close}>
             Cancelar
           </button>
-
           <button className={styles.modalSave} onClick={handleCreate}>
             {isEdit ? "Salvar Alterações" : "Salvar"}
           </button>

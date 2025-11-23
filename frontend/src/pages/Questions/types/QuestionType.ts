@@ -16,4 +16,6 @@ export interface Question {
   options?: QuestionOptions;
   correct?: string;
   answer?: string;
+  imageFile?: File;
+  imagePreview?: string;
 }

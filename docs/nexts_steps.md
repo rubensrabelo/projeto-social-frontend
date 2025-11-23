@@ -30,8 +30,8 @@
 ---
 
 ### **4. Gestão de Questões**
-* [ ] Tela de **listagem de questões**
-* [ ] Tela de **criação de questão**
-* [ ] Tela de **edição de questão**
-* [ ] Funcionalidade de **remoção de questão**
+* [x] Tela de **listagem de questões**
+* [x] Tela de **criação de questão**
+* [x] Tela de **edição de questão**
+* [x] Funcionalidade de **remoção de questão**
 * [ ] Testes unitários e de integração para todas as operações
