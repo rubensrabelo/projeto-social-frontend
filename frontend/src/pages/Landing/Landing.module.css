@@ -1,31 +1,76 @@
 .landingContainer {
   width: 100%;
-  height: 100vh;
-
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   background: #004940;
-
   overflow: hidden;
+  padding: 40px 20px;
+  box-sizing: border-box;
 }
 
 .landingImage {
-  width: 240px;
-  margin-bottom: 40px;
+  width: clamp(120px, 20vw, 240px);
+  margin-bottom: 24px;
   object-fit: contain;
+  max-width: 100%;
 }
 
 .cardContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-
   gap: 40px;
-  flex-wrap: nowrap; /* mantém todos na mesma linha */
-
+  flex-wrap: nowrap; /* mantém todos na mesma linha em telas grandes */
   width: 100%;
   max-width: 900px;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+
+/* permite que os filhos cresçam/encolham de forma confortável */
+.cardContainer > * {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+/* Medium screens */
+@media (max-width: 900px) {
+  .cardContainer {
+    gap: 24px;
+    max-width: 700px;
+  }
+  .landingImage {
+    margin-bottom: 20px;
+  }
+}
+
+/* Small screens: empilha os cards e ajusta espaçamento */
+@media (max-width: 700px) {
+  .landingContainer {
+    padding: 32px 16px;
+  }
+  .cardContainer {
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    max-width: 420px;
+  }
+  .landingImage {
+    width: clamp(100px, 28vw, 180px);
+    margin-bottom: 16px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 420px) {
+  .cardContainer {
+    gap: 12px;
+  }
+  .landingImage {
+    width: 100px;
+  }
 }

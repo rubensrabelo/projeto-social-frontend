@@ -1,29 +1,28 @@
 .navbar {
   width: 100%;
   height: 70px;
-
   background: #004940;
   color: white;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
 
   padding: 0 26px;
-
-  font-family: Arial, sans-serif;
-  position: relative;
-
   box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+
+  /* permitir que itens ajustem espaçamento em telas pequenas */
+  flex-wrap: nowrap;
 }
 
+/* conteúdo à esquerda */
 .left {
   display: flex;
   align-items: center;
   gap: 18px;
 }
 
+/* logo */
 .logo {
   width: 42px;
   height: auto;
@@ -32,13 +31,15 @@
   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
 }
 
+/* nome do sistema */
 .systemName {
   font-size: 22px;
-  font-weight: bold;
+  font-weight: 700;
   letter-spacing: 0.6px;
-  font-family: poppins, sans-serif;
+  font-family: "Poppins", Arial, sans-serif;
 }
 
+/* conteúdo à direita */
 .right {
   display: flex;
   align-items: center;
@@ -46,16 +47,15 @@
   position: relative;
 }
 
+/* ícones / perfil / seta */
 .icon,
 .profile,
 .arrow {
   width: 26px;
   height: 26px;
   object-fit: contain;
-
   cursor: pointer;
   user-select: none;
-
   transition: transform 0.18s ease, opacity 0.18s ease;
 }
 
@@ -119,5 +119,106 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* -----------------------
+   Responsividade
+   -----------------------
+*/
+
+/* tablets / larguras médias */
+@media (max-width: 900px) {
+  .navbar {
+    height: 64px;
+    padding: 0 18px;
+  }
+
+  .logo {
+    width: 36px;
+  }
+
+  .systemName {
+    font-size: 18px;
+  }
+
+  .left {
+    gap: 12px;
+  }
+
+  .right {
+    gap: 12px;
+  }
+
+  .icon,
+  .profile,
+  .arrow {
+    width: 24px;
+    height: 24px;
+  }
+
+  .profile {
+    width: 28px;
+    height: 28px;
+  }
+
+  .dropdownMenu {
+    top: 64px;
+    width: 150px;
+    right: 0;
+  }
+
+  .dropdownMenu button {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+}
+
+/* celulares */
+@media (max-width: 520px) {
+  .navbar {
+    height: 60px;
+    padding: 0 12px;
+  }
+
+  .left {
+    gap: 8px;
+  }
+
+  .logo {
+    width: 34px;
+  }
+
+  /* esconder o nome longo do sistema em telas muito pequenas para ganhar espaço */
+  .systemName {
+    font-size: 16px;
+    display: none;
+  }
+
+  .right {
+    gap: 10px;
+  }
+
+  .icon,
+  .profile,
+  .arrow {
+    width: 22px;
+    height: 22px;
+  }
+
+  .profile {
+    width: 26px;
+    height: 26px;
+  }
+
+  .dropdownMenu {
+    top: 60px;
+    right: 6px;
+    width: 160px; /* um pouco maior para botões com toque confortável */
+  }
+
+  .dropdownMenu button {
+    padding: 12px 14px;
+    font-size: 15px;
   }
 }

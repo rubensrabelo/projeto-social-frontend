@@ -4,6 +4,7 @@ import CardOption from "../../Components/CardOption/CardOption";
 import questoes from "../../assets/question_icon.svg";
 import provas from "../../assets/tests_icon.svg";
 import relatorio from "../../assets/report_icon.svg";
+import gerenciar_usuario from "../../assets/usuarios_icon.svg";
 
 import styles from "./Home.module.css";
 
@@ -48,7 +49,7 @@ export default function Home() {
         {!isProfessor && (
           <CardOption
             title="Gerenciar Turmas"
-            image="/img/turma.png"
+            image={gerenciar_usuario}
             onClick={() => navigate("/classes")}
           />
         )}

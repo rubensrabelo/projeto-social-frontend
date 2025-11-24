@@ -65,9 +65,9 @@ export default function Login() {
         ) : (
           <>
             <Input
-              label="Email"
-              name="email"
-              value={form.email}
+              label="Matrícula"
+              name="matricula"
+              value={form.matricula}
               onChange={handleChange}
             />
             <Input
