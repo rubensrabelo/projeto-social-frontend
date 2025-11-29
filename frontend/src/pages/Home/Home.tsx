@@ -14,11 +14,11 @@ export default function Home() {
   
   const type = searchParams.get("type");
 
-  if (!type || (type !== "professor" && type !== "coordenador")) {
+  if (!type || (type !== "professores" && type !== "coordenadores")) {
     return <h2>Tipo de usuário inválido.</h2>;
   }
 
-  const isProfessor = type === "professor";
+  const isProfessor = type === "professores";
 
   return (
     <div className={styles.homeContainer}>

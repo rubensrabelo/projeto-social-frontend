@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function LandingPage() {
   const navigate = useNavigate();
 
-  const handleSelect = (role: "aluno" | "professor" | "coordenador") => {
+  const handleSelect = (role: "alunos" | "professores" | "coordenadores") => {
     navigate(`/login?type=${role}`);
   };
 
@@ -25,17 +25,17 @@ export default function LandingPage() {
         <CardOption
           title="Aluno"
           image={usuario_icon}
-          onClick={() => handleSelect("aluno")}
+          onClick={() => handleSelect("alunos")}
         />
         <CardOption
           title="Professor"
           image={usuario_icon}
-          onClick={() => handleSelect("professor")}
+          onClick={() => handleSelect("professores")}
         />
         <CardOption
           title="Coordenador"
           image={usuario_icon}
-          onClick={() => handleSelect("coordenador")}
+          onClick={() => handleSelect("coordenadores")}
         />
       </div>
     </div>

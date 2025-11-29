@@ -6,9 +6,11 @@ import styles from "./LoginPage.module.css";
 import logo from "../../assets/logo-eeep.webp";
 import Input from "../../Components/Input/Input";
 
+import { login } from "../../api/services/auth/LoginService";
+import { saveUserSession } from "../../utils/session/saveUserSession";
+
 type LoginForm = {
   matricula: string;
-  email: string;
   senha: string;
 };
 
@@ -19,30 +21,49 @@ export default function Login() {
 
   const [form, setForm] = useState<LoginForm>({
     matricula: "",
-    email: "",
     senha: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [ error, setError] = useState("");
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
 
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+    setForm(function (prev) {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  }
 
-  const handleSubmit = () => {
-    if (type === "aluno") {
-      console.log("Login aluno:", form.matricula);
-      alert("Login de aluno ainda não implementado.");
-      return;
+  async function handleSubmit() {
+    try {
+      if (type === "alunos") {
+        const data = { matricula: Number(form.matricula) };
+
+        const user = await login(data, "alunos");
+
+        saveUserSession(user);
+
+        navigate(`/home?type=${type}`);
+        return;
+      }
+
+      const data = {
+        matricula: Number(form.matricula),
+        senha: form.senha,
+      };
+
+      const user = await login(data, type || "");
+
+      saveUserSession(user);
+
+      navigate(`/home?type=${type}`);
+    } catch (err: any) {
+      setError(err.message || "Erro ao realizar login.");
     }
-
-    console.log("Login prof/coord:", form.email, form.senha);
-
-    navigate(`/home?type=${type}`);
-  };
+  }
 
   if (!type) return <h3>Tipo de usuário inválido.</h3>;
 
@@ -55,7 +76,7 @@ export default function Login() {
           Login – {type.charAt(0).toUpperCase() + type.slice(1)}
         </h1>
 
-        {type === "aluno" ? (
+        {type === "alunos" ? (
           <Input
             label="Matrícula"
             name="matricula"
@@ -80,11 +101,13 @@ export default function Login() {
           </>
         )}
 
+        { error && <p className={styles.errorMessage}>{error}</p>}
+
         <button className={styles.submitButton} onClick={handleSubmit}>
           Entrar
         </button>
 
-        {type !== "aluno" && (
+        {type !== "alunos" && (
           <div className={styles.forgotPassword}>
             <Link to={`/recover-password?type=${type}`}>
               Esqueceu sua senha?
