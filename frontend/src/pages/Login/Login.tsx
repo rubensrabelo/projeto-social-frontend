@@ -40,13 +40,11 @@ export default function Login() {
   async function handleSubmit() {
     try {
       if (type === "alunos") {
-        const data = { matricula: Number(form.matricula) };
-
-        const user = await login(data, "alunos");
-
-        saveUserSession(user);
-
-        navigate(`/home?type=${type}`);
+        // const data = { matricula: Number(form.matricula) };
+        // const user = await login(data, "alunos");
+        // saveUserSession(user);
+        // navigate(`/home?type=${type}`);
+        alert("Ainda não foi implementado.")
         return;
       }
 
