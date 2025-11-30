@@ -1,35 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Exams.module.css";
 
-import ExamFilters from "./components/ExamFilters";
 import ExamCreateForm from "./components/ExamForm";
 import ExamTable from "./components/ExamTable";
 import type { Exam } from "./types/ExamsType";
 
+import { getUserSession } from "../../utils/session/getUserSession";
+import { GetAllQuestionBankService } from "../../api/services/QuestionBank/GetAllQuestionBankService";
+import { CreateExamService } from "../../api/services/exams/CreateExamService";
+
 export default function Exams() {
   const navigate = useNavigate();
-
-  const [filters, setFilters] = useState({ bimestre: "", disciplina: "" });
 
   const [editing, setEditing] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
 
-  const [exams, setExams] = useState<Exam[]>([
-    {
-      id: 1,
-      titulo: "Prova de Matemática",
-      quantidade_questoes: 10,
-      turmas: [1, 2],
-      bimestre: 1,
-      area: "Matemática",
-      dia_a_ser_realizada: "2025-02-15",
-      hora_a_ser_liberada: "09:00",
-      banco_questao_id: 1,
-      questoes_id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      metodo_de_selecao_de_ap: "aleatório",
-    }
-  ]);
+  const [exams, setExams] = useState<Exam[]>([]);
+  const [questionBanks, setQuestionBanks] = useState([]);
 
   const emptyExam: Exam = {
     titulo: "",
@@ -47,7 +35,24 @@ export default function Exams() {
   const [creating, setCreating] = useState(false);
   const [newExam, setNewExam] = useState<Exam>(emptyExam);
 
-  const handleCreate = () => {
+  useEffect(() => {
+    const loadBanks = async () => {
+      const data = getUserSession();
+      const teacherId = data.id;
+      if (!teacherId) return;
+
+      try {
+        const banks = await GetAllQuestionBankService(teacherId);
+        setQuestionBanks(banks);
+      } catch (err) {
+        alert("Erro ao carregar bancos de questões");
+      }
+    };
+
+    loadBanks();
+  }, []);
+
+  const handleCreate = async () => {
     if (
       !newExam.titulo ||
       !newExam.bimestre ||
@@ -64,14 +69,19 @@ export default function Exams() {
       return;
     }
 
-    const newE: Exam = {
-      ...newExam,
-      id: exams.length + 1,
-    };
+    try {
+      const data = getUserSession();
+      const teacherId = data.id;
+      if (!teacherId) return;
 
-    setExams([...exams, newE]);
-    setNewExam(emptyExam);
-    setCreating(false);
+      await CreateExamService(teacherId, newExam);
+
+      setExams([...exams, { ...newExam, id: exams.length + 1 }]);
+      setNewExam(emptyExam);
+      setCreating(false);
+    } catch (err) {
+      alert("Erro ao criar a prova");
+    }
   };
 
   const startEdit = (e: Exam) => {
@@ -107,11 +117,9 @@ export default function Exams() {
 
       <h1 className={styles.title}> Gerenciar Provas</h1>
 
-      <ExamFilters
-        filters={filters}
-        setFilters={setFilters}
-        openCreateForm={() => setCreating(true)}
-      />
+      <button className={styles.newBtn} onClick={() => setCreating(true)}>
+        + Nova Prova
+      </button>
 
       {creating && (
         <ExamCreateForm
@@ -119,6 +127,7 @@ export default function Exams() {
           setNewExam={setNewExam}
           handleCreate={handleCreate}
           close={() => setCreating(false)}
+          questionBanks={questionBanks}
         />
       )}
 
@@ -129,6 +138,7 @@ export default function Exams() {
           handleCreate={handleEdit}
           close={() => setEditing(false)}
           isEdit
+          questionBanks={questionBanks}
         />
       )}
 

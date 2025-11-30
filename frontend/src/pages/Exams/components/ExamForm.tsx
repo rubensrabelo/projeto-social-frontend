@@ -7,6 +7,7 @@ interface Props {
   handleCreate: () => void;
   close: () => void;
   isEdit?: boolean;
+  questionBanks: any[];
 }
 
 export default function ExamCreateForm({
@@ -15,6 +16,7 @@ export default function ExamCreateForm({
   handleCreate,
   close,
   isEdit = false,
+  questionBanks,
 }: Props) {
   const update = (field: keyof Exam, value: any) => {
     setNewExam({ ...newExam, [field]: value });
@@ -89,20 +91,18 @@ export default function ExamCreateForm({
 
           <div className={styles.modalTitle}>
             <h5>Selecionar Turmas</h5>
-            {/* TODO: Fetch turmas from API */}
-            {/* {turmas?.map((turma) => (
-              <label key={turma.id}>
-              <input type="checkbox" value={turma.id} />
-              {turma.nome}
-              </label>
-            ))} */}
-            </div>
+          </div>
 
           <select
             value={newExam.banco_questao_id || ""}
             onChange={(e) => update("banco_questao_id", Number(e.target.value))}
           >
             <option value="">Banco de Questões</option>
+            {questionBanks.map((b) => (
+              <option key={b.id} value={b.id}>
+                {b.area}
+              </option>
+            ))}
           </select>
 
           <select
@@ -114,30 +114,6 @@ export default function ExamCreateForm({
             <option value="Aleatória">Aleatória</option>
           </select>
 
-            {newExam.metodo_de_selecao_de_ap === "Manual" && (
-            <div className={styles.modalTitle}>
-              <h5>Selecionar Questões</h5>
-              {/* TODO: Fetch e mapear questões do banco selecionado */}
-              {/* {questoes?.map((questao) => (
-            <label key={questao.id}>
-            <input type="checkbox" value={questao.id} />
-            {questao.titulo}
-            </label>
-              ))} */}
-            </div>
-            )}
-
-            {newExam.metodo_de_selecao_de_ap === "Aleatória" && (
-            <div className={styles.modalTitle}>
-              <h5>Questões Selecionadas Aleatoriamente</h5>
-              {/* TODO: Fetch e mapear questões aleatórias do banco selecionado */}
-              {/* {questoes?.map((questao) => (
-            <div key={questao.id}>
-            <p>{questao.titulo}</p>
-            </div>
-              ))} */}
-            </div>
-            )}
         </div>
 
         <div className={styles.modalActions}>
