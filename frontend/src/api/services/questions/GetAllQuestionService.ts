@@ -2,8 +2,8 @@ import ENV from "../../../config/envConfig.ts";
 import { AuthError } from "../../errors/AuthError.ts";
 import { parseErrorResponse } from "../../utils/parseErrorResponse.ts";
 
-export async function GetAllQuestionBankService(id_teacher: string) {
-    const url = `${ENV.API_BASE_URL}/professores/${id_teacher}/banco_questoes`;
+export async function GetAllQuestionService(id_teacher: string, id_bank_question: number) {
+    const url = `${ENV.API_BASE_URL}/professores/${id_teacher}/banco_questoes/${id_bank_question}/questoes`;
 
     const response = await fetch(url, {
         method: "GET",
@@ -17,6 +17,6 @@ export async function GetAllQuestionBankService(id_teacher: string) {
 
     const data = await response.json();
 
-    return data["bancos_questoes"] || [];
+    return data["questoes"] || [];
 }
 

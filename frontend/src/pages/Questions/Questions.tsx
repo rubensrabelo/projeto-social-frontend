@@ -1,33 +1,26 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styles from "./Questions.module.css";
 
 import QuestionsFilters from "./components/QuestionsFilters";
 import QuestionCreateForm from "./components/QuestionCreateForm";
 import QuestionsTable from "./components/QuestionsTable";
 import type { Question } from "./types/QuestionType";
+import { GetAllQuestionService } from "../../api/services/questions/GetAllQuestionService";
+import { getUserSession } from "../../utils/session/getUserSession";
+
 
 export default function Questions() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const bank = location.state?.bank;
 
   const [filters, setFilters] = useState({ year: "", area: "", subject: "" });
 
   const [editing, setEditing] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
 
-  const [questions, setQuestions] = useState<Question[]>([
-    {
-      id: 1,
-      year: "2024",
-      bimester: "1º",
-      title: "Funções Afim",
-      statement: "Explique o comportamento da função afim.",
-      subject: "Matemática",
-      type: "multiple",
-      options: { A: "Cresce", B: "Decresce", C: "Constante", D: "Outro" },
-      correct: "A",
-    },
-  ]);
+  const [questions, setQuestions] = useState<Question[]>([]);
 
   const emptyQuestion: Question = {
     id: null,
@@ -44,6 +37,26 @@ export default function Questions() {
 
   const [creating, setCreating] = useState(false);
   const [newQuestion, setNewQuestion] = useState<Question>(emptyQuestion);
+
+  useEffect(() => {
+    async function loadQuestions() {
+      try {
+        if(!bank) return;
+
+        const result = await GetAllQuestionService(
+          String(bank.professor_id),
+          Number(bank.id)
+        );
+
+        setQuestions(result);
+      } catch (error) {
+        console.error(error);
+        alert("Erro ao carregar as questões.");
+      }
+    }
+
+    loadQuestions();
+  }, [bank]);
 
   const handleCreate = () => {
     if (
