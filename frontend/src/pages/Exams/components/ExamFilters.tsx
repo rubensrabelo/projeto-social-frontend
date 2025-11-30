@@ -13,10 +13,11 @@ export default function ExamFilters({ filters, setFilters, openCreateForm }: Fil
         value={filters.bimestre}
         onChange={(e) => setFilters({ ...filters, bimestre: e.target.value })}
       >
-        <option value="">Série</option>
-        <option value="1">1º Ano</option>
-        <option value="2">2º Ano</option>
-        <option value="3">3º Ano</option>
+        <option value="">Bimestre</option>
+        <option value="1">1º Bimestre</option>
+        <option value="2">2º Bimestre</option>
+        <option value="3">3º Bimestre</option>
+        <option value="4">4º Bimestre</option>
       </select>
 
       <select
