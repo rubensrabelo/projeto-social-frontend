@@ -66,6 +66,7 @@
   font-weight: 600;
   transition: 0.25s ease;
   flex: 0 0 auto;
+  margin-left: auto;
 }
 
 .newBtn:hover {
