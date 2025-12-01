@@ -5,6 +5,7 @@ import styles from "./QuestionBank.module.css";
 import { createQuestionBank } from "../../api/services/QuestionBank/CreateQuestionBankService";
 import { GetAllQuestionBankService } from "../../api/services/QuestionBank/GetAllQuestionBankService";
 import QuestionBankCard from "./components/QuestionBankCard";
+import { getUserSession } from "../../utils/session/getUserSession";
 
 export default function QuestionBank() {
   const [banks, setBanks] = useState<any[]>([]);
@@ -20,7 +21,7 @@ export default function QuestionBank() {
 
   const navigate = useNavigate();
 
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const user = getUserSession();
   const id_professor = user?.id;
 
   useEffect(() => {
@@ -77,6 +78,13 @@ export default function QuestionBank() {
 
   return (
     <div className={styles.container}>
+      <button
+        className={styles.backBtn}
+        onClick={() => navigate("/home?type=professores")}
+      >
+        ⬅ Voltar
+      </button>
+
       <h1 className={styles.title}>Bancos de Questões</h1>
 
       <button className={styles.createBtn} onClick={() => setCreating(true)}>
