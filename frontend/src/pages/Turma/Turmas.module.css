@@ -1,0 +1,348 @@
+.container {
+  background: #dff7e8;
+  min-height: 100vh;
+  padding: 40px 30px;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.backBtn {
+  background: #03695b;
+  color: #fff;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 600;
+  margin-bottom: 20px;
+  transition: 0.2s ease;
+}
+
+.backBtn:hover {
+  background: #1B876C;
+}
+
+.title {
+  font-size: 32px;
+  margin-bottom: 28px;
+  color: #024e45;
+  font-weight: 700;
+}
+
+.filters {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 28px;
+  align-items: center;
+  flex-wrap: wrap; /* permite quebra em telas pequenas */
+}
+.optionsAdd {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 28px;
+  align-items: center;
+  flex-wrap: wrap; /* permite quebra em telas pequenas */
+}
+
+.filters select {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #b7d6c9;
+  background: #ffffff;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  transition: 0.2s ease;
+  min-width: 160px;
+  flex: 0 1 auto;
+}
+
+.filters select:hover {
+  border-color: #008f7b;
+}
+
+.newBtn {
+  padding: 13px 22px;
+  background: #004940;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 600;
+  transition: 0.25s ease;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.newBtn:hover {
+  background: #1B876C;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  animation: fadeBg 0.25s ease forwards;
+}
+
+@keyframes fadeBg {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalBox {
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 20px;
+  width: 520px;
+  max-width: 95%; /* responsivo */
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideIn 0.18s ease forwards;
+}
+
+.modalScroll {
+  padding: 28px;
+  overflow-y: auto;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modalTitle {
+  font-size: 24px;
+  font-weight: 700;
+  color: #024e45;
+  margin-bottom: 10px;
+}
+.modalSubtitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #024e45;
+  margin-bottom: 10px;
+}
+.alunoList {
+  font-size: 18px;
+  font-weight: 400;
+  color: #024e45;
+  margin-bottom: 10px;
+}
+
+.modalBox input,
+.modalBox select,
+.modalBox textarea {
+  padding: 12px 15px;
+  border-radius: 12px;
+  border: 1px solid #c8dfd4;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  background: #f6fcf9;
+  outline: none;
+  transition: 0.18s ease;
+}
+
+.modalBox input:focus,
+.modalBox select:focus,
+.modalBox textarea:focus {
+  border-color: #009e88;
+  box-shadow: 0 0 0 3px rgba(0, 158, 136, 0.25);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.multipleBox {
+  background: #eef9f4;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid #cfe8dc;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #004940
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.modalOptions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.modalCancel {
+  background: #e4e7e7;
+  padding: 10px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  transition: 0.22s ease;
+}
+
+.modalCancel:hover {
+  background: #cfd3d3;
+}
+
+.modalSave {
+  background: #004940;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.22s ease;
+}
+
+.modalSave:hover {
+  background: #008f7b;
+}
+
+.tableWrapper {
+  background: #ffffff;
+  /* padding: 8px; */
+  border-radius: 8px;
+  border: 1px solid #cde5d7;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  margin-top: 20px;
+  overflow-x: auto; /* permite rolagem horizontal em telas pequenas */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 720px; /* evita colapso excessivo das colunas em desktop */
+}
+
+.table th {
+  background: #024e45;
+  color: white;
+  padding: 14px;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #e6e6e6;
+  text-align: center;
+  font-size: 14px;
+  color: #2f3d37;
+  white-space: nowrap;
+}
+
+.editBtn {
+  background: #ffcf3a;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 2.5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.18s ease;
+}
+
+.editBtn:hover {
+  background: #e0b62e;
+}
+
+.deleteBtn {
+  background: #e04643;
+  border: none;
+  padding: 8px 16px;
+  margin-left: 2.5px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.18s ease;
+}
+
+.deleteBtn:hover {
+  background: #c93734;
+}
+
+/* =========================
+   Responsive Styles
+   ========================= */
+
+/* Tablets and small desktops */
+@media (max-width: 992px) {
+  .container { padding: 32px 20px; }
+
+  .title { font-size: 28px; }
+
+  .modalBox { width: 480px; max-width: 92%; }
+  .modalScroll { padding: 20px; max-height: 72vh; }
+
+  .table { min-width: 640px; }
+  .table th, .table td { padding: 10px; font-size: 13px; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .container { padding: 20px 16px; }
+
+  .title { font-size: 22px; margin-bottom: 18px; }
+
+  /* filtros empilham e ocupam largura completa */
+  .filters { gap: 10px; }
+  .filters select { flex: 1 1 100%; min-width: 0; }
+  .newBtn { width: 100%; flex: 1 1 100%; }
+
+  /* Modal menor e mais confortável em mobile */
+  .modalBox { width: 92%; padding: 8px; border-radius: 16px; }
+  .modalScroll { padding: 16px; max-height: 75vh; gap: 12px; }
+  .modalTitle { font-size: 20px; }
+
+  .modalActions { justify-content: center; }
+  .modalCancel, .modalSave { width: 48%; }
+
+  /* Tabela se torna rolável horizontalmente */
+  .table { min-width: 600px; }
+  .table th, .table td { font-size: 13px; padding: 8px; }
+
+  /* Ajuste de botões dentro da tabela */
+  .editBtn, .deleteBtn { padding: 6px 10px; font-size: 13px; margin: 0 4px; }
+}
+
+/* Very small devices */
+@media (max-width: 420px) {
+  .title { font-size: 20px; }
+  .modalTitle { font-size: 18px; }
+  .modalBox { width: 96%; max-width: 96%; }
+  .modalCancel, .modalSave { width: 100%; }
+  .modalActions { flex-direction: column; gap: 8px; }
+}

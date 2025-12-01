@@ -7,6 +7,7 @@ import ProtectedLayout from "../Layout/ProtectedLayout";
 import Questions from "../pages/Questions/Questions";
 import QuestionBank from "../pages/QuestionBank/QuestionBank";
 import Exams from "../pages/Exams/Exams";
+import Turmas from "../pages/Turma/Turmas";
 
 function AppRouter() {
     return (
@@ -22,6 +23,7 @@ function AppRouter() {
                     <Route path="banco_de_questoes" element={<QuestionBank />} />
                     <Route path="questoes" element={<Questions />} />
                     <Route path="exams" element={<Exams />} />
+                    <Route path="turmas" element={<Turmas />} />
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -50,7 +50,7 @@ export default function Home() {
           <CardOption
             title="Gerenciar Turmas"
             image={gerenciar_usuario}
-            onClick={() => navigate("/classes")}
+            onClick={() => navigate("/turmas")}
           />
         )}
 
