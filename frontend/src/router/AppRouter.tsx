@@ -22,6 +22,7 @@ function AppRouter() {
                 <Route path="/" element={<ProtectedLayout />}>
                     <Route path="home" element={<Home />} />
                     <Route path="banco_de_questoes" element={<QuestionBank />} />
+                    <Route path="gerenciar_professores" element={<QuestionBank />} />
                     <Route path="questoes" element={<Questions />} />
                     <Route path="exams" element={<Exams />} />
                     <Route path="turmas" element={<Turmas />} />

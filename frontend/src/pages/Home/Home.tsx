@@ -5,13 +5,14 @@ import questoes from "../../assets/question_icon.svg";
 import provas from "../../assets/tests_icon.svg";
 import relatorio from "../../assets/report_icon.svg";
 import gerenciar_usuario from "../../assets/usuarios_icon.svg";
+import professor from "../../assets/teacher-icon.png";
 
 import styles from "./Home.module.css";
 
 export default function Home() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  
+
   const type = searchParams.get("type");
 
   if (!type || (type !== "professores" && type !== "coordenadores")) {
@@ -47,11 +48,18 @@ export default function Home() {
         )}
 
         {!isProfessor && (
-          <CardOption
-            title="Gerenciar Turmas"
-            image={gerenciar_usuario}
-            onClick={() => navigate("/turmas")}
-          />
+          <>
+            <CardOption
+              title="Gerenciar Turmas"
+              image={gerenciar_usuario}
+              onClick={() => navigate("/turmas")}
+            />
+            <CardOption
+              title="Gerenciar professores"
+              image={gerenciar_usuario}
+              onClick={() => navigate("/gerenciar_professores")}
+            />
+          </>
         )}
 
         <CardOption
