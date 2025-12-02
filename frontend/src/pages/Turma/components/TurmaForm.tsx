@@ -8,6 +8,7 @@ interface Props {
   newTurma: Turma;
   setNewTurma: (e: Turma) => void;
   handleCreate: () => void;
+  close: () => void;
   isEdit?: boolean;
 }
 
@@ -15,6 +16,7 @@ export default function TurmaCreateForm({
   newTurma,
   setNewTurma,
   handleCreate,
+  close,
   isEdit = false,
 }: Props) {
   const update = (field: keyof Turma, value: any) => {

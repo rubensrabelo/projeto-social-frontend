@@ -17,8 +17,8 @@ export default function TurmasTable({ turmas, handleDelete, startEdit, handleDet
                         <th>ID</th>
                         <th>Ano</th>
                         <th>Curso</th>
+                        <th>Ir para configurações</th>
                         <th>Ações</th>
-                        <th>Ir para detalhes</th>
                     </tr>
                 </thead>
 
@@ -28,6 +28,15 @@ export default function TurmasTable({ turmas, handleDelete, startEdit, handleDet
                             <td>{e._id}</td>
                             <td>{e.ano}</td>
                             <td>{e.curso}</td>
+
+                            <td>
+                                <button
+                                    className={styles.detailBtn}
+                                    onClick={() => handleDetails(e._id!)}
+                                >
+                                    Configurações
+                                </button>
+                            </td>
 
                             <td>
                                 <button
@@ -42,15 +51,6 @@ export default function TurmasTable({ turmas, handleDelete, startEdit, handleDet
                                     onClick={() => handleDelete(e._id!)}
                                 >
                                     Excluir
-                                </button>
-                            </td>
-
-                            <td>
-                                <button
-                                    className={styles.detailBtn}
-                                    onClick={() => handleDetails(e._id!)}
-                                >
-                                    Ir para detalhes
                                 </button>
                             </td>
                         </tr>

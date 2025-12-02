@@ -99,6 +99,7 @@ export default function Turmas() {
           newTurma={newTurma}
           setNewTurma={setNewTurma}
           handleCreate={handleCreate}
+          close = {() => setCreating(false)}
         />
       )}
 
@@ -107,6 +108,7 @@ export default function Turmas() {
           newTurma={newTurma}
           setNewTurma={setNewTurma}
           handleCreate={handleEdit}
+          close={() => setEditing(false)}
           isEdit
         />
       )}
