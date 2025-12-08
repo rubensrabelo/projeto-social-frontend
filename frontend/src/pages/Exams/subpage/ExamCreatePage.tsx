@@ -31,7 +31,7 @@ export default function ExamCreatePage() {
   const [exam, setExam] = useState<Exam>(emptyExam);
   const [questionBanks, setQuestionBanks] = useState<any[]>([]);
 
-  // Carrega bancos
+  // Carregar bancos
   useEffect(() => {
     const loadBanks = async () => {
       try {
@@ -55,12 +55,14 @@ export default function ExamCreatePage() {
 
   const handleSave = async () => {
     const user = getUserSession();
+
     try {
       if (isEdit) {
         await UpdateExamService(String(user.id), String(id), exam);
       } else {
         await CreateExamService(String(user.id), exam);
       }
+
       navigate("/exams");
     } catch {
       alert("Erro ao salvar prova");

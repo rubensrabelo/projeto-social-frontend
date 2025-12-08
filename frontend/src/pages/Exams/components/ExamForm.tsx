@@ -1,7 +1,9 @@
 import { useState } from "react";
 import styles from "../Exams.module.css";
 import type { Exam } from "../types/ExamsType";
+
 import QuestionSelectModal from "./QuestionSelectModal";
+import SchoolClassSelectModal from "./SchoolClassSelectModal";
 
 interface Props {
   newExam: Exam;
@@ -18,31 +20,56 @@ export default function ExamCreateForm({
   handleCreate,
   close,
   isEdit = false,
-  questionBanks
+  questionBanks,
 }: Props) {
-
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalQuestionsOpen, setModalQuestionsOpen] = useState(false);
+  const [modalClassesOpen, setModalClassesOpen] = useState(false);
 
   const update = (field: keyof Exam, value: any) =>
     setNewExam({ ...newExam, [field]: value });
 
+  // Quando confirmar seleção de questões
   const handleQuestionsSelected = (questionsIds: number[], bankId: number) => {
     update("questoes_id", questionsIds);
     update("banco_questao_id", bankId);
-    setModalOpen(false);
+    setModalQuestionsOpen(false);
+  };
+
+  // Quando confirmar seleção de turmas
+  const handleClassesSelected = (classIds: number[]) => {
+    update("turmas", classIds);
+    setModalClassesOpen(false);
   };
 
   return (
     <div className={styles.formPage}>
-      <h2 className={styles.formTitle}>{isEdit ? "Editar Prova" : "Criar Nova Prova"}</h2>
+      <h2 className={styles.formTitle}>
+        {isEdit ? "Editar Prova" : "Criar Nova Prova"}
+      </h2>
 
-      <input type="text" placeholder="Título"
-        value={newExam.titulo} onChange={(e) => update("titulo", e.target.value)} />
+      {/* Título */}
+      <input
+        type="text"
+        placeholder="Título"
+        value={newExam.titulo}
+        onChange={(e) => update("titulo", e.target.value)}
+      />
 
-      <input type="number" placeholder="Quantidade de Questões"
-        value={newExam.quantidade_questoes || ""} onChange={(e) => update("quantidade_questoes", Number(e.target.value))} />
+      {/* Qtd questões */}
+      <input
+        type="number"
+        placeholder="Quantidade de Questões"
+        value={newExam.quantidade_questoes || ""}
+        onChange={(e) =>
+          update("quantidade_questoes", Number(e.target.value))
+        }
+      />
 
-      <select value={newExam.bimestre} onChange={(e) => update("bimestre", Number(e.target.value))}>
+      {/* Bimestre */}
+      <select
+        value={newExam.bimestre}
+        onChange={(e) => update("bimestre", Number(e.target.value))}
+      >
         <option value="">Bimestre</option>
         <option value={1}>1º</option>
         <option value={2}>2º</option>
@@ -50,23 +77,52 @@ export default function ExamCreateForm({
         <option value={4}>4º</option>
       </select>
 
-      <select value={newExam.area} onChange={(e) => update("area", e.target.value)}>
+      {/* Área */}
+      <select
+        value={newExam.area}
+        onChange={(e) => update("area", e.target.value)}
+      >
         <option value="">Disciplina</option>
-        {/* ... opcoes ... */}
+        <option value="Matemática">Matemática</option>
+        <option value="Português">Português</option>
+        <option value="História">História</option>
+        <option value="Geografia">Geografia</option>
+        <option value="Física">Física</option>
+        <option value="Química">Química</option>
+        <option value="Biologia">Biologia</option>
       </select>
 
-      <input type="date" value={newExam.dia_a_ser_realizada}
-        onChange={(e) => update("dia_a_ser_realizada", e.target.value)} />
+      {/* Data */}
+      <input
+        type="date"
+        value={newExam.dia_a_ser_realizada}
+        onChange={(e) => update("dia_a_ser_realizada", e.target.value)}
+      />
 
-      <input type="time" value={newExam.hora_a_ser_liberada}
-        onChange={(e) => update("hora_a_ser_liberada", e.target.value)} />
+      {/* Hora */}
+      <input
+        type="time"
+        value={newExam.hora_a_ser_liberada}
+        onChange={(e) => update("hora_a_ser_liberada", e.target.value)}
+      />
 
-      {/* BOTÃO PARA ABRIR MODAL */}
-      <button className={styles.openModalBtn} onClick={() => setModalOpen(true)}>
+      {/* Botão para modal de questões */}
+      <button
+        className={styles.openModalBtn}
+        onClick={() => setModalQuestionsOpen(true)}
+      >
         Selecionar Questões
       </button>
 
-      {/* LISTA DE QUESTÕES ESCOLHIDAS */}
+      {/* Botão para modal de turmas */}
+      <button
+        className={styles.openModalBtn}
+        onClick={() => setModalClassesOpen(true)}
+      >
+        Selecionar Turmas
+      </button>
+
+      {/* Lista de questões selecionadas */}
       {newExam.questoes_id.length > 0 && (
         <div className={styles.selectedContainer}>
           <h4>Questões Selecionadas:</h4>
@@ -76,19 +132,40 @@ export default function ExamCreateForm({
         </div>
       )}
 
+      {/* Lista de turmas selecionadas */}
+      {newExam.turmas.length > 0 && (
+        <div className={styles.selectedContainer}>
+          <h4>Turmas Selecionadas:</h4>
+          {newExam.turmas.map((t) => (
+            <p key={t}>Turma #{t}</p>
+          ))}
+        </div>
+      )}
+
       <div className={styles.formActions}>
-        <button className={styles.cancelBtn} onClick={close}>Cancelar</button>
+        <button className={styles.cancelBtn} onClick={close}>
+          Cancelar
+        </button>
+
         <button className={styles.saveBtn} onClick={handleCreate}>
           {isEdit ? "Salvar Alterações" : "Salvar"}
         </button>
       </div>
 
-      {/* MODAL */}
-      {modalOpen && (
+      {/* Modal Questões */}
+      {modalQuestionsOpen && (
         <QuestionSelectModal
-          close={() => setModalOpen(false)}
+          close={() => setModalQuestionsOpen(false)}
           banks={questionBanks}
           onConfirm={handleQuestionsSelected}
+        />
+      )}
+
+      {/* Modal Turmas */}
+      {modalClassesOpen && (
+        <SchoolClassSelectModal
+          close={() => setModalClassesOpen(false)}
+          onConfirm={handleClassesSelected}
         />
       )}
     </div>
