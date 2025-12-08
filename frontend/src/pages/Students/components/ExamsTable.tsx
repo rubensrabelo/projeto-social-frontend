@@ -7,7 +7,9 @@ interface Props {
 }
 function isExamAvailable(exam: Exam): boolean {
     const currentDate = new Date()
-    const examDate = new Date(exam.dia_a_ser_realizada + 'T' + exam.hora_a_ser_liberada)
+
+    const [day, month, year] = exam.dia_a_ser_realizada.split('/')
+    const examDate = new Date(`${year}-${month}-${day}T${exam.hora_a_ser_liberada}`)
 
     if(currentDate > examDate) return true
     return false
@@ -20,8 +22,8 @@ export default function ExamsTable({ exams }: Props) {
             <table className={styles.table}>
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Título</th>
+                        <th>Bimestre</th>
                         <th>Quantidade de Questões</th>
                         <th>Data</th>
                         <th>Horário de liberação</th>
@@ -31,9 +33,9 @@ export default function ExamsTable({ exams }: Props) {
 
                 <tbody>
                     {exams.map((e) => (
-                        <tr key={e.id}>
-                            <td>{e.id}</td>
+                        <tr key={e._id}>
                             <td>{e.titulo}</td>
+                            <td>{e.bimestre}</td>
                             <td>{e.quantidade_questoes}</td>
                             <td>{e.dia_a_ser_realizada}</td>
                             <td>{e.hora_a_ser_liberada}</td>
@@ -41,8 +43,8 @@ export default function ExamsTable({ exams }: Props) {
                                 {isExamAvailable(e) ?
                                 <button 
                                 className={styles.answerBtn}
-                                onClick={() => navigate(`/student/answerExam/${e.id}`)}
-                                >
+                                onClick={() => navigate(`/student/answerExam/${e._id}/${e.professor_id}/${e.banco_questao_id}`)}
+                               >
                                     Iniciar Prova
                                 </button>: "Prova indisponível"}
                             </td>

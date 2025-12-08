@@ -3,86 +3,41 @@ import styles from "./AnswerExamPage.module.css";
 import { useParams, useNavigate } from "react-router-dom";
 import QuestionCard from "././components/QuestionCard"
 import type { Question } from "../Questions/types/QuestionType";
+import { GetExamByIdService } from "../../api/services/student/GetExamsService";
+import { GetQuestionExamService } from "../../api/services/student/GetQuestionsExamService";
+import ConfirmDialog from "../Questions/components/ConfirmDialog";
+
 
 export default function AnswerExamPage() {
-  const { examId } = useParams();
+  const { examId, professorId, bankId } = useParams();
   const navigate = useNavigate();
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [timeLeft, setTimeLeft] = useState(25 * 60); // 25 minutos
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(120 * 60); // 120 minutos
 
   // Chamar a API para buscar as questões da prova
   useEffect(() => {
-    setQuestions([
-      {
-        id: 1,
-        enunciado: "Quanto vale a raiz quadrada de 16?",
-        alternativa_a: "6",
-        alternativa_b: "8",
-        alternativa_c: "4",
-        alternativa_d: "2",
-        alternativa_e: "4",
-        materia: "Matemática",
-        correta: "c",
-        banco_questao_id: 1,
-        nivel_de_dificuldade: "fácil"
-      },
-      {
-        id: 2,
-        enunciado: "Qual é o resultado de 7 × 8?",
-        alternativa_a: "54",
-        alternativa_b: "56",
-        alternativa_c: "48",
-        alternativa_d: "58",
-        alternativa_e: "60",
-        materia: "Matemática",
-        correta: "b",
-        banco_questao_id: 1,
-        nivel_de_dificuldade: "fácil"
-      },
-      {
-        id: 3,
-        enunciado: "Qual é o valor de 25 ÷ 5?",
-        alternativa_a: "4",
-        alternativa_b: "6",
-        alternativa_c: "3",
-        alternativa_d: "5",
-        alternativa_e: "8",
-        materia: "Matemática",
-        correta: "d",
-        banco_questao_id: 1,
-        nivel_de_dificuldade: "fácil"
-      },
-      {
-        id: 4,
-        enunciado: "Qual é o próximo número da sequência: 2, 4, 6, 8, ...?",
-        alternativa_a: "9",
-        alternativa_b: "10",
-        alternativa_c: "12",
-        alternativa_d: "14",
-        alternativa_e: "16",
-        materia: "Matemática",
-        correta: "b",
-        banco_questao_id: 1,
-        nivel_de_dificuldade: "fácil"
-      },
-      {
-        id: 5,
-        enunciado: "Quanto é 12 + 15?",
-        alternativa_a: "27",
-        alternativa_b: "28",
-        alternativa_c: "25",
-        alternativa_d: "30",
-        alternativa_e: "32",
-        materia: "Matemática",
-        correta: "a",
-        banco_questao_id: 1,
-        nivel_de_dificuldade: "fácil"
-      }
+    async function fetchQuestions() {
+      if (!professorId || !bankId || !examId) return;
 
-    ]);
-  }, []);
+      const examData = await GetExamByIdService(professorId, examId);
+      const questionIds = examData.questoes_id || [];
+
+      // carrega as questões em paralelo
+      const questionsData = await Promise.all(
+        questionIds.map((qid : number) =>
+          GetQuestionExamService(professorId, Number(bankId), qid)
+        )
+      );
+
+      // seta uma vez só
+      setQuestions(questionsData);
+    }
+
+    fetchQuestions();
+  }, [professorId, bankId, examId]);
 
   // Timer
   useEffect(() => {
@@ -101,13 +56,19 @@ export default function AnswerExamPage() {
   };
 
   const formatTime = (sec: number) => {
-    const m = String(Math.floor(sec / 60)).padStart(2, "0");
+    const h = String(Math.floor(sec / 3600)).padStart(2, "0");
+    const m = String(Math.floor((sec % 3600) / 60)).padStart(2, "0");
     const s = String(sec % 60).padStart(2, "0");
-    return `${m}:${s}`;
+    return `${h}:${m}:${s}`;
   };
 
   const finalize = () => {
-    navigate(`/student/examResult/${examId}`);
+    navigate(`/student/examResult/${examId}`, {
+      state: {
+        questions,
+        answers
+      }
+    });
   };
 
   return (
@@ -142,9 +103,18 @@ export default function AnswerExamPage() {
           <h3>Tempo Restante</h3>
           <p className={styles.timer}>{formatTime(timeLeft)}</p>
 
-          <button className={styles.finishBtn} onClick={finalize}>
+          <button className={styles.finishBtn} onClick={() =>setConfirmOpen(true)}>
             Finalizar prova
           </button>
+
+          {confirmOpen && (
+            <ConfirmDialog
+              title="Finalizar prova"
+              message="Tem certeza que deseja finalizar a prova? Confira suas respostas antes de confirmar"
+              onConfirm={finalize}
+              onCancel={() => setConfirmOpen(false)}
+            />
+          )}
         </div>
       </div>
 

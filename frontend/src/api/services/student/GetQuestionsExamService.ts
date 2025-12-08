@@ -2,7 +2,7 @@ import ENV from "../../../config/envConfig.ts";
 import { AuthError } from "../../errors/AuthError.ts";
 import { parseErrorResponse } from "../../utils/parseErrorResponse.ts";
 
-export async function GetQuestionService(
+export async function GetQuestionExamService(
     id_teacher: string,
     id_bank: number,
     id_question: number,

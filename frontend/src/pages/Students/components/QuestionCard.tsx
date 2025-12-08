@@ -10,12 +10,14 @@ interface Props {
     alternativa_c: string;
     alternativa_d: string;
     alternativa_e: string;
+    correta: string;
   };
   selected?: string; // alternativa escolhida
   onSelect: (alt: string) => void;
+  reviewMode?: boolean;
 }
 
-export default function QuestionCard({ question, selected, onSelect }: Props) {
+export default function QuestionCard({ question, selected, onSelect, reviewMode }: Props) {
   const alternativas = [
     { key: "a", texto: question.alternativa_a },
     { key: "b", texto: question.alternativa_b },
@@ -24,23 +26,38 @@ export default function QuestionCard({ question, selected, onSelect }: Props) {
     { key: "e", texto: question.alternativa_e },
   ];
 
+  const correctKey = alternativas.find(alt => alt.key === question.correta)?.key;
+
   return (
     <div className={styles.questionBox}>
       <p className={styles.questionText}>
         {question.id} — {question.enunciado}
       </p>
 
-      {alternativas.map((alt) => (
-        <label key={alt.key} className={styles.option}>
-          <input
-            type="radio"
-            name={`q-${question.id}`}
-            checked={selected === alt.key}
-            onChange={() => onSelect(alt.key)}
-          />
-          <span>{alt.texto}</span>
-        </label>
-      ))}
+      {alternativas.map((alt) => {
+        // classes para modo revisão
+        let optionClass = styles.option;
+
+        if (reviewMode) {
+          if (alt.key === correctKey) {
+            optionClass = `${styles.option} ${styles.correct}`;
+          } else if (alt.key === selected && selected !== correctKey) {
+            optionClass = `${styles.option} ${styles.incorrect}`;
+          }
+        }
+
+        return (
+          <label key={alt.key} className={optionClass}>
+            <input
+                type="radio"
+                name={`q-${question.id}`}
+                checked={selected === alt.key}
+                onChange={() => onSelect(alt.key)}
+              />
+            <span>{alt.texto}</span>
+          </label>
+        );
+      })}
     </div>
   );
 }

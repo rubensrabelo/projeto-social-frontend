@@ -1,8 +1,9 @@
 export interface Exam {
-  id?: number | null;
+  _id?: number | null;
   titulo: string;
   quantidade_questoes: number;
   turmas: number[];
+  professor_id : string
   bimestre: number;
   area: string;
   dia_a_ser_realizada: string;

@@ -105,6 +105,24 @@ input[type="radio"] {
   margin-bottom: 20px;
 }
 
+.correct {
+  background-color: #c8f7c5; /* verde claro */
+  border: 1px solid #28a745;
+}
+.correct:hover {
+  background-color: #c8f7c5; /* verde claro */
+  border: 1px solid #28a745;
+}
+
+.incorrect {
+  background-color: #f8d7da; /* vermelho claro */
+  border: 1px solid #dc3545;
+}
+.incorrect:hover {
+  background-color: #f8d7da; /* vermelho claro */
+  border: 1px solid #dc3545;
+}
+
 .timer {
   font-family: "Poppins", sans-serif;
   font-weight: 600;
