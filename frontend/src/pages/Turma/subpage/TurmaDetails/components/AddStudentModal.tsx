@@ -14,9 +14,11 @@ export default function AddStudentModal({ idClass, onClose, reload, idCoordinato
     const [nome, setNome] = useState("");
     const [matricula, setMatricula] = useState("");
 
+    const [error, setError] = useState("");
+
     const handleSubmit = async () => {
         if (!nome || !matricula) {
-            alert("Preencha nome e matrícula!");
+            setError("Preencha nome e matrícula!");
             return;
         }
 
@@ -27,11 +29,17 @@ export default function AddStudentModal({ idClass, onClose, reload, idCoordinato
         };
 
         try {
-            await CreateStudentManuallyService(idCoordinator, body);
+            const response = await CreateStudentManuallyService(idCoordinator, body);
+            console.log(response);
+            if(response.Aluno === null) {
+                setError("Aluno com essa matrícula já existe.");
+                return;
+            }
+                
             reload();
             onClose();
         } catch (err: any) {
-            alert(err.message || "Erro ao adicionar aluno");
+            setError(err.message || "Erro ao adicionar aluno.");
         }
     };
 
@@ -57,6 +65,8 @@ export default function AddStudentModal({ idClass, onClose, reload, idCoordinato
                     onChange={(e) => setMatricula(e.target.value)}
                     placeholder="Número da matrícula"
                 />
+
+                {error && <p className={styles.errorMessage}>{error}</p>}
 
                 <div className={styles.modalButtons}>
                     <button className={styles.cancelBtn} onClick={onClose}>Cancelar</button>

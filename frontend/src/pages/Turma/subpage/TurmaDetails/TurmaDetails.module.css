@@ -118,6 +118,12 @@
   animation: fadeBg 0.25s ease forwards;
 }
 
+.errorMessage {
+  color: #ff0000;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
 @keyframes fadeBg {
   from { opacity: 0; }
   to { opacity: 1; }
