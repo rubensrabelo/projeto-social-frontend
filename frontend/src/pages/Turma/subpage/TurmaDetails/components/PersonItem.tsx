@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "../TurmaDetails.module.css";
 import { GetStudentByIdService } from "../../../../../api/services/student/GetStudentByIdService";
+import { GetTeacherByIdService } from "../../../../../api/services/teacher/GetTeacherByIdService";
 
 interface PersonItemProps {
     id: string;
@@ -14,18 +15,33 @@ export default function PersonItem({ id, type, data }: PersonItemProps) {
 
     useEffect(() => {
         async function load() {
-            if (type === "aluno") {
-                try {
+            setLoading(true);
+
+            try {
+                if (type === "aluno") {
                     const student = await GetStudentByIdService(id);
                     setInfo(student);
-                } catch (_) {
-                    setInfo({ nome: "Aluno não encontrado", matricula: "--" });
                 }
+
+                if (type === "professor") {
+                    const teacher = await GetTeacherByIdService(id);
+                    setInfo(teacher);
+                }
+            } catch (_) {
+                setInfo({
+                    nome: type === "aluno"
+                        ? "Aluno não encontrado"
+                        : "Professor não encontrado",
+                    matricula: "--",
+                });
+            } finally {
                 setLoading(false);
             }
         }
+
         load();
     }, [id, type]);
+
 
     if (loading) return <li className={styles.personItem}>Carregando aluno...</li>;
 
