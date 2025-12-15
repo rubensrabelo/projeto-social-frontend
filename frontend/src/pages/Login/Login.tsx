@@ -9,6 +9,7 @@ import Input from "../../Components/Input/Input";
 import { login } from "../../api/services/auth/LoginService";
 import { getAluno } from "../../api/services/student/GetAlunoService";
 import { saveUserSession } from "../../utils/session/saveUserSession";
+import { AuthError } from "../../api/errors/AuthError";
 
 type LoginForm = {
   matricula: string;
@@ -26,6 +27,7 @@ export default function Login() {
   });
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -39,10 +41,26 @@ export default function Login() {
   }
 
   async function handleSubmit() {
+
     try {
+      setError("");
+
+      if (!form.matricula || (type !== "alunos" && !form.senha)) {
+        setError("Preencha todos os campos corretamente.");
+        return;
+      }
+
+      const matriculaNumber = Number(form.matricula);
+
+      if (Number.isNaN(matriculaNumber)) {
+        setError("Matrícula inválida.");
+        return;
+      }
+
+      setLoading(true);
+
       if (type === "alunos") {
-        const data = Number(form.matricula);
-        const user = await getAluno(data, "alunos");
+        const user = await getAluno(matriculaNumber, "alunos");
         saveUserSession(user);
         navigate(`/student`);
 
@@ -50,7 +68,7 @@ export default function Login() {
       }
 
       const data = {
-        matricula: Number(form.matricula),
+        matricula: matriculaNumber,
         senha: form.senha,
       };
 
@@ -60,11 +78,27 @@ export default function Login() {
 
       navigate(`/home?type=${type}`);
     } catch (err: any) {
-      setError(err.message || "Erro ao realizar login.");
+      if (err instanceof AuthError) {
+        if (err.status === 401 || err.status === 404) {
+          setError("Matrícula ou senha inválida.");
+          return;
+        }
+
+        if (err.status === 400) {
+          setError("Dados inválidos. Verifique os campos.");
+          return;
+        }
+      }
+
+      setError("Ocorreu um erro inesperado ao realizar login.");
+    }
+    finally {
+      setLoading(false);
     }
   }
 
   if (!type) return <h3>Tipo de usuário inválido.</h3>;
+  const isFormValid = !!form.matricula && (type === "alunos" || !!form.senha);
 
   return (
     <div className={styles.loginContainer}>
@@ -102,9 +136,15 @@ export default function Login() {
 
         {error && <p className={styles.errorMessage}>{error}</p>}
 
-        <button className={styles.submitButton} onClick={handleSubmit}>
-          Entrar
+        <button
+          className={styles.submitButton}
+          onClick={handleSubmit}
+          disabled={!isFormValid || loading}
+        >
+          {loading ? "Entrando..." : "Entrar"}
         </button>
+
+
 
         {type !== "alunos" && (
           <div className={styles.linksLogin}>

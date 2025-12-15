@@ -77,6 +77,18 @@
     transform: scale(0.90);
   }
 
+  .submitButton:disabled {
+    background: #b5b5b5;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .submitButton:disabled:hover {
+    background: #b5b5b5;
+    transform: none;
+  }
+
+
   .linksLogin {
     margin-top: 12px;
     text-align: center;
@@ -90,6 +102,5 @@
 
   .linksLogin a:hover {
     text-decoration: underline;
-    color:#1B876C
+    color: #1B876C
   }
-
