@@ -13,7 +13,7 @@ import { DeleteBankService } from "../../api/services/QuestionBank/DeleteBankSer
 import ConfirmDialog from "../Questions/components/ConfirmDialog";
 
 export default function QuestionBanks() {
-  const emptybank : Bank = {
+  const emptybank: Bank = {
     id: undefined,
     bimestre: 0,
     ano: 0,
@@ -23,7 +23,7 @@ export default function QuestionBanks() {
   const [newBank, setNewBank] = useState<Bank>(emptybank)
   const [banks, setBanks] = useState<any[]>([]);
   const [creating, setCreating] = useState(false);
-  const [editing , setEditing] = useState(false)
+  const [editing, setEditing] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [deletingBank, setDeletingBank] = useState<Bank | null>(null);
 
@@ -38,6 +38,7 @@ export default function QuestionBanks() {
   useEffect(() => {
     async function loadBanks() {
       try {
+        setError("");
         const data = await GetAllQuestionBankService(id_professor);
         if (Array.isArray(data)) {
           setBanks(data);
@@ -47,18 +48,16 @@ export default function QuestionBanks() {
         }
       } catch (err: any) {
         setError(err.message || "Erro ao carregar bancos.");
-        alert(error)
       }
     }
     loadBanks();
   }, [id_professor]);
-  
+
   // Cria o novo banco de questões
   async function handleCreate() {
-    
+    setError("");
     if (!newBank.bimestre || !newBank.ano) {
       setError("Preencha todos os campos!");
-      alert("Por favor, preencha todos os campos")
       return;
     }
 
@@ -77,16 +76,15 @@ export default function QuestionBanks() {
 
     } catch (err: any) {
       setError(err.message || "Erro ao criar banco.");
-      alert("Erro ao criar banco.");
     }
   }
   // Edita o Banco de questões
-  async function handleEdit () {
+  async function handleEdit() {
+    setError("");
     const user = getUserSession()
-      
+
     if (!newBank.bimestre || !newBank.ano) {
       setError("altere um  dos campos!");
-      alert("altere um dos campos!")
       return;
     }
 
@@ -102,7 +100,7 @@ export default function QuestionBanks() {
       const updatedBank = updated.banco_questoes
 
 
-      setBanks(prev=>
+      setBanks(prev =>
         prev.map(b => (b.id === newBank.id ? updatedBank : b)) // atualiza o registro do banco localmente
       );
       setEditing(false);
@@ -120,6 +118,7 @@ export default function QuestionBanks() {
   }
 
   async function handleDelete() {
+    setError("");
     const user = getUserSession();
     if (!user?.id || !deletingBank) return;
 
@@ -132,8 +131,7 @@ export default function QuestionBanks() {
       setDeleting(false)
 
     } catch (err: any) {
-      setError(err.message || "Erro ao excluir banco.");
-      alert(error)
+      alert(err.message || "Erro ao excluir banco.");
     }
   }
 
@@ -153,38 +151,40 @@ export default function QuestionBanks() {
       </button>
 
       <div className={styles.tableWrapper}>
-        {banks.length === 0 && <p>Nenhum banco criado ainda.</p>}
 
-        <QuestionBankTable banks={banks} 
-        onEdit={(bank : Bank) => {
-          setNewBank({
-            ...bank,
-            bimestre: bank.bimestre,
-            ano: bank.ano,
-          });
-          setEditing(true);}}
-        onDelete={onDelete}
+        <QuestionBankTable banks={banks}
+          onEdit={(bank: Bank) => {
+            setNewBank({
+              ...bank,
+              bimestre: bank.bimestre,
+              ano: bank.ano,
+            });
+            setEditing(true);
+          }}
+          onDelete={onDelete}
         />
-
+        {banks.length === 0 && <p>Nenhum banco criado ainda.</p>}
       </div>
 
       {creating && (
         <CreateBankModal
-            bank={newBank}
-            setNewBank={setNewBank}
-            handleSubmit={handleCreate}
-            close={() => {setCreating(false); setNewBank(emptybank)} }
-            isEdit={false}
+          bank={newBank}
+          setNewBank={setNewBank}
+          handleSubmit={handleCreate}
+          close={() => { setError(""), setCreating(false); setNewBank(emptybank) }}
+          error={error}
+          isEdit={false}
         />
       )}
 
       {editing && (
         <CreateBankModal
-            bank={newBank}
-            setNewBank={setNewBank}
-            handleSubmit={handleEdit}
-            close={() => {setEditing(false); setNewBank(emptybank)} }
-            isEdit={true}
+          bank={newBank}
+          setNewBank={setNewBank}
+          handleSubmit={handleEdit}
+          close={() => { setError(""), setEditing(false); setNewBank(emptybank) }}
+          error={error}
+          isEdit={true}
         />
       )}
       {deleting && (

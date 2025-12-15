@@ -30,7 +30,7 @@ h1 {
 }
 
 .label {
-  color : #024e45;
+  color: #024e45;
   font-size: 14px
 }
 
@@ -52,15 +52,22 @@ h1 {
 }
 
 @keyframes slideIn {
-  from { opacity: 0; transform: translateY(-12px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .tableWrapper {
   background: #ffffff;
   border-radius: 8px;
   border: 1px solid #cde5d7;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
   margin-top: 20px;
   overflow-x: auto;
 }
@@ -72,7 +79,7 @@ h1 {
   overflow: hidden;
   background: #ffffff;
   border: 1px solid #cde5d7;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
 }
 
 .table th {
@@ -119,7 +126,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-.detailBtn:hover{
+.detailBtn:hover {
   background: #004940;
 }
 
@@ -168,8 +175,11 @@ h1 {
   overflow-y: auto;
   padding-right: 4px;
 }
-.modalScroll label, select{
-  gap: 16px; /* espaçamento entre inputs */
+
+.modalScroll label,
+select {
+  gap: 16px;
+  /* espaçamento entre inputs */
   padding-bottom: 4px;
   padding-top: 12px;
   font-family: "Poppins", sans-serif;
@@ -184,14 +194,16 @@ h1 {
 
 .modalBox input,
 .modalBox select {
-  width: 100%;            /* garante largura total */
+  width: 100%;
+  /* garante largura total */
   padding: 12px 14px;
   border-radius: 10px;
   border: 1px solid #c8dfd4;
   background: #f7fcfa;
   outline: none;
   font-size: 14px;
-  box-sizing: border-box; /* evita estourar o layout */
+  box-sizing: border-box;
+  /* evita estourar o layout */
 }
 
 .modalActions {

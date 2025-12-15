@@ -4,19 +4,21 @@ import styles from "../QuestionBank.module.css";
 import type { Bank } from "../types/BankType";
 
 interface props {
-  bank: Bank;
-  setNewBank: (b: Bank) => void;
-  handleSubmit: () => void;
-  close: () => void;
-  isEdit?: boolean;
+    bank: Bank;
+    setNewBank: (b: Bank) => void;
+    handleSubmit: () => void;
+    close: () => void;
+    error: string;
+    isEdit?: boolean;
 }
 
 export default function CreateBankModal({
-  bank,
-  setNewBank,
-  handleSubmit,
-  close,
-  isEdit = false
+    bank,
+    setNewBank,
+    handleSubmit,
+    close,
+    error,
+    isEdit = false
 }: props) {
     const update = <K extends keyof Bank>(field: K, value: Bank[K]) => {
         setNewBank({ ...bank, [field]: value });
@@ -32,8 +34,8 @@ export default function CreateBankModal({
 
                     <label htmlFor="select_serie" className={styles.label}>
                         Selecione a Série:
-                    </label>  
-                    <select 
+                    </label>
+                    <select
                         id="select_serie"
                         name="ano"
                         value={bank.ano || ""}
@@ -47,8 +49,8 @@ export default function CreateBankModal({
 
                     <label htmlFor="select_bimestre" className={styles.label}>
                         Selecione o Bimestre:
-                    </label>    
-                    <select 
+                    </label>
+                    <select
                         id="select_bimestre"
                         name="bimestre"
                         value={bank.bimestre || ""}
@@ -63,7 +65,7 @@ export default function CreateBankModal({
 
                     <label htmlFor="select_area" className={styles.label}>
                         Selecione a Área:
-                    </label>     
+                    </label>
                     <select
                         id="select_area"
                         name="area"
@@ -78,14 +80,17 @@ export default function CreateBankModal({
                         <option value="Ciências da Natureza">Ciências da Natureza</option>
                     </select>
 
+                    {error && <p className={styles.errorMessage}>{error}</p>}
+
                     <div className={styles.modalActions}>
                         <button className={styles.modalCancel} onClick={close}>
-                        Cancelar
+                            Cancelar
                         </button>
                         <button className={styles.modalSave} onClick={handleSubmit}>
-                        {isEdit ? "Salvar Alterações" : "Criar Banco"}
+                            {isEdit ? "Salvar Alterações" : "Criar Banco"}
                         </button>
                     </div>
+
                 </div>
             </div>
         </div>
