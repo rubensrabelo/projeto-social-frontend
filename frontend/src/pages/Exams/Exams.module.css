@@ -391,6 +391,20 @@
   background: #008f7b;
 }
 
+.modalBtn:disabled {
+  background: #cfd8d6;
+  color: #6b7a78;
+  cursor: not-allowed;
+  opacity: 0.8;
+  box-shadow: none;
+}
+
+.modalBtn:disabled:hover {
+  background: #cfd8d6;
+  transform: none;
+}
+
+
 .modalCancel {
   background: #e4e7e7;
   color: #000;
@@ -399,6 +413,13 @@
 .modalCancel:hover {
   background: #cfd3d3;
 }
+
+.errorMessage {
+    color: #ff0000;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
 
 @media (max-width: 992px) {
   .container { padding: 32px 20px; }

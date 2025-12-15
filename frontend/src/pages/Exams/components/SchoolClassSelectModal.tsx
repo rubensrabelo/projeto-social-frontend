@@ -71,6 +71,7 @@ export default function SchoolClassSelectModal({ close, onConfirm }: Props) {
           <button
             className={styles.modalBtn}
             onClick={() => onConfirm(selectedClasses)}
+            disabled={selectedClasses.length === 0}
           >
             Confirmar
           </button>

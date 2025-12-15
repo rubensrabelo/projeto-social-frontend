@@ -10,6 +10,7 @@ interface Props {
   setNewExam: (e: Exam) => void;
   handleCreate: () => void;
   close: () => void;
+  error: string;
   isEdit?: boolean;
   questionBanks: any[];
 }
@@ -19,6 +20,7 @@ export default function ExamCreateForm({
   setNewExam,
   handleCreate,
   close,
+  error,
   isEdit = false,
   questionBanks,
 }: Props) {
@@ -148,6 +150,8 @@ export default function ExamCreateForm({
           ))}
         </div>
       )}
+
+      {error && <p className={styles.errorMessage}>{error}</p>}
 
       <div className={styles.formActions}>
         <button className={styles.cancelBtn} onClick={close}>

@@ -12,15 +12,17 @@ import { GetAllExamesService } from "../../api/services/exams/GetAllExamsService
 export default function Exams() {
   const navigate = useNavigate();
   const [exams, setExams] = useState<Exam[]>([]);
+  const [error, setError] = useState<string>("")
 
   useEffect(() => {
     const loadExams = async () => {
       try {
+        setError("");
         const user = getUserSession();
         const data = await GetAllExamesService(user.id);
         setExams(data);
       } catch {
-        alert("Erro ao carregar provas");
+        setError("Erro ao carregar provas");
       }
     };
     loadExams();
@@ -41,7 +43,7 @@ export default function Exams() {
       await DeleteExamService(String(user.id), String(id));
       setExams((prev) => prev.filter((e) => e.id !== id));
     } catch {
-      alert("Erro ao excluir prova");
+      setError("Erro ao excluir prova");
     }
   };
 
@@ -58,6 +60,7 @@ export default function Exams() {
       </button>
 
       <ExamTable exams={exams} handleDelete={handleDelete} startEdit={startEdit} />
+      {error && <p className={styles.errorMessage}>{error}</p>}
     </div>
   );
 }

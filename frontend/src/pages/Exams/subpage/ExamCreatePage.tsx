@@ -10,6 +10,19 @@ import { CreateExamService } from "../../../api/services/exams/CreateExamService
 import { UpdateExamService } from "../../../api/services/exams/UpdateExamService";
 import ExamCreateForm from "../components/ExamForm";
 
+function hasEmptyFields(exam: Exam) {
+  return (
+    !exam.titulo ||
+    !exam.banco_questao_id ||
+    !exam.bimestre ||
+    !exam.area ||
+    !exam.dia_a_ser_realizada ||
+    !exam.hora_a_ser_liberada ||
+    !exam.quantidade_questoes ||
+    exam.turmas.length === 0
+  );
+}
+
 export default function ExamCreatePage() {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -30,6 +43,7 @@ export default function ExamCreatePage() {
 
   const [exam, setExam] = useState<Exam>(emptyExam);
   const [questionBanks, setQuestionBanks] = useState<any[]>([]);
+  const [error, setError] = useState<string>("")
 
   // Carregar bancos
   useEffect(() => {
@@ -39,7 +53,7 @@ export default function ExamCreatePage() {
         const banks = await GetAllQuestionBankService(user.id);
         setQuestionBanks(banks);
       } catch {
-        alert("Erro ao carregar bancos");
+        setError("Erro ao carregar bancos");
       }
     };
     loadBanks();
@@ -56,6 +70,11 @@ export default function ExamCreatePage() {
   const handleSave = async () => {
     const user = getUserSession();
 
+    if (hasEmptyFields(exam)) {
+      setError("Preencha todos os campos");
+      return;
+    }
+
     try {
       if (isEdit) {
         await UpdateExamService(String(user.id), String(id), exam);
@@ -65,7 +84,7 @@ export default function ExamCreatePage() {
 
       navigate("/exams");
     } catch {
-      alert("Erro ao salvar prova");
+      setError("Erro ao salvar prova");
     }
   };
 
@@ -80,6 +99,7 @@ export default function ExamCreatePage() {
         setNewExam={setExam}
         handleCreate={handleSave}
         close={() => navigate("/exams")}
+        error={error}
         isEdit={isEdit}
         questionBanks={questionBanks}
       />

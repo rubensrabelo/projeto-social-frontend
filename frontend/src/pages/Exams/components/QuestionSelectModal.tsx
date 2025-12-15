@@ -107,6 +107,7 @@ export default function QuestionSelectModal({ close, banks, onConfirm }: Props) 
           <button
             className={styles.modalBtn}
             onClick={() => onConfirm(selectedQuestions, Number(selectedBank))}
+            disabled={selectedQuestions.length === 0}
           >
             Confirmar
           </button>
