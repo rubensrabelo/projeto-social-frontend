@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
 import QuestionCreateForm from "./components/QuestionCreateForm";
 import QuestionsTable from "./components/QuestionsTable";
-import type { Question } from "./types/QuestionType";
+import ConfirmDialog from "./components/ConfirmDialog";
 
+import type { Question } from "./types/QuestionType";
 import styles from "./Questions.module.css";
+
 import { GetAllQuestionService } from "../../api/services/questions/GetAllQuestionService";
 import { CreateQuestionService } from "../../api/services/questions/CreateQuestionService";
 import { DeleteQuestionService } from "../../api/services/questions/DeletelQuestionService";
-import ConfirmDialog from "./components/ConfirmDialog";
 import { UpdateQuestionService } from "../../api/services/questions/UpdateQuestionService";
 import { GetQuestionService } from "../../api/services/questions/GetQuestionService";
 
@@ -19,51 +19,78 @@ export default function Questions() {
   const { state } = useLocation();
   const bank = state?.bank;
 
-  const emptyQuestion: Question = {
-    id: null,
-    enunciado: "",
-    alternativa_a: "",
-    alternativa_b: "",
-    alternativa_c: "",
-    alternativa_d: "",
-    alternativa_e: "",
-    materia: "",
-    correta: "",
-    banco_questao_id: bank?.id ?? 0,
-    nivel_de_dificuldade: ""
-  };
+  function getEmptyQuestion(): Question {
+    return {
+      id: null,
+      enunciado: "",
+      alternativa_a: "",
+      alternativa_b: "",
+      alternativa_c: "",
+      alternativa_d: "",
+      alternativa_e: "",
+      materia: "",
+      correta: "",
+      banco_questao_id: bank?.id ?? 0,
+      nivel_de_dificuldade: ""
+    };
+  }
 
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [question, setQuestion] = useState<Question>(getEmptyQuestion());
+
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState(false);
 
-  const [question, setQuestion] = useState<Question>(emptyQuestion);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [questionToDelete, setQuestionToDelete] = useState<Question | null>(null);
+
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!bank) return;
 
     async function fetchData() {
-      const result = await GetAllQuestionService(bank.professor_id, bank.id);
-      setQuestions(result);
-    };
+      try {
+        const result = await GetAllQuestionService(
+          bank.professor_id,
+          bank.id
+        );
+        setQuestions(result);
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
     fetchData();
   }, [bank]);
 
-
   async function handleCreate() {
-    const payload = { ...question, banco_questao_id: bank.id };
+    setError("");
 
-    await CreateQuestionService(bank.professor_id, bank.id, payload);
+    if (!question.enunciado || !question.correta) {
+      setError("Preencha todos os campos obrigatórios.");
+      return;
+    }
 
-    const result = await GetAllQuestionService(bank.professor_id, bank.id);
-    setQuestions(result);
+    try {
+      await CreateQuestionService(
+        bank.professor_id,
+        bank.id,
+        { ...question, banco_questao_id: bank.id }
+      );
 
-    setQuestion(emptyQuestion);
-    setCreating(false);
-  };
+      const result = await GetAllQuestionService(
+        bank.professor_id,
+        bank.id
+      );
+      setQuestions(result);
+
+      setQuestion(getEmptyQuestion());
+      setCreating(false);
+    } catch (err) {
+      setError("Erro ao criar questão.");
+    }
+  }
 
   async function handleEdit(selectedQuestion: Question) {
     if (!selectedQuestion.id) return;
@@ -77,35 +104,53 @@ export default function Questions() {
 
       setQuestion(fullQuestion);
       setEditing(true);
-    } catch (error) {
-      alert("Erro ao carregar a questão!");
-      console.error(error);
+    } catch (err) {
+      alert("Erro ao carregar a questão.");
     }
   }
 
-
   async function handleUpdate() {
     if (!question.id) return;
+
+    setError("");
+
+    if (!question.enunciado || !question.correta) {
+      setError("Preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    const payload = {
+      enunciado: question.enunciado,
+      alternativa_a: question.alternativa_a,
+      alternativa_b: question.alternativa_b,
+      alternativa_c: question.alternativa_c,
+      alternativa_d: question.alternativa_d,
+      alternativa_e: question.alternativa_e,
+      correta: question.correta,
+      materia: question.materia,
+      nivel_de_dificuldade: question.nivel_de_dificuldade
+    };
 
     try {
       await UpdateQuestionService(
         bank.professor_id,
         bank.id,
         Number(question.id),
-        question
+        payload
       );
 
-      const result = await GetAllQuestionService(bank.professor_id, bank.id);
+      const result = await GetAllQuestionService(
+        bank.professor_id,
+        bank.id
+      );
       setQuestions(result);
 
-      setQuestion(emptyQuestion);
+      setQuestion(getEmptyQuestion());
       setEditing(false);
-    } catch (error) {
-      alert("Erro ao atualizar questão!");
-      console.error(error);
+    } catch (err) {
+      setError("Erro ao atualizar questão.");
     }
   }
-
 
   function handleDelete(question: Question) {
     setQuestionToDelete(question);
@@ -121,16 +166,16 @@ export default function Questions() {
         Number(questionToDelete.id)
       );
 
-      setQuestions(prev => prev.filter(q => q.id !== questionToDelete.id));
-    } catch (error) {
-      alert("Erro ao deletar questão!");
-      console.log(error);
+      setQuestions(prev =>
+        prev.filter(q => q.id !== questionToDelete.id)
+      );
+    } catch (err) {
+      alert("Erro ao deletar questão.");
     }
 
     setConfirmOpen(false);
     setQuestionToDelete(null);
   }
-
 
   return (
     <div className={styles.container}>
@@ -143,7 +188,13 @@ export default function Questions() {
 
       <h1>Gerenciar Questões</h1>
 
-      <button className={styles.createBtn} onClick={() => setCreating(true)}>
+      <button
+        className={styles.createBtn}
+        onClick={() => {
+          setQuestion(getEmptyQuestion());
+          setCreating(true);
+        }}
+      >
         + Criar Questão
       </button>
 
@@ -160,7 +211,8 @@ export default function Questions() {
           question={question}
           setQuestion={setQuestion}
           handleSubmit={handleCreate}
-          close={() => setCreating(false)}
+          close={() => {setError(""), setCreating(false)}}
+          error={error}
         />
       )}
 
@@ -169,7 +221,8 @@ export default function Questions() {
           question={question}
           setQuestion={setQuestion}
           handleSubmit={handleUpdate}
-          close={() => setEditing(false)}
+          close={() => {setError(""), setEditing(false)}}
+          error={error}
           isEdit
         />
       )}

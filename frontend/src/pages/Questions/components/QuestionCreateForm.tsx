@@ -5,6 +5,7 @@ export default function QuestionCreateForm({
   setQuestion,
   handleSubmit,
   close,
+  error,
   isEdit = false
 }: any) {
   return (
@@ -13,7 +14,6 @@ export default function QuestionCreateForm({
         <h2>{isEdit ? "Editar Questão" : "Criar Questão"}</h2>
 
         <textarea
-          className={styles.textarea}
           placeholder="Enunciado da questão..."
           value={question.enunciado}
           onChange={(e) =>
@@ -67,7 +67,7 @@ export default function QuestionCreateForm({
             setQuestion({ ...question, correta: e.target.value })
           }
         >
-          <option value="">Selecione a alternativa correta</option>
+          <option value="">Alternativa correta</option>
           <option value="A">Alternativa A</option>
           <option value="B">Alternativa B</option>
           <option value="C">Alternativa C</option>
@@ -81,7 +81,7 @@ export default function QuestionCreateForm({
             setQuestion({ ...question, materia: e.target.value })
           }
         >
-          <option value="">Selecione a Matéria</option>
+          <option value="">Matéria</option>
           <option value="Português">Português</option>
           <option value="Matemática">Matemática</option>
           <option value="Física">Física</option>
@@ -93,7 +93,10 @@ export default function QuestionCreateForm({
         <select
           value={question.nivel_de_dificuldade}
           onChange={(e) =>
-            setQuestion({ ...question, nivel_de_dificuldade: e.target.value })
+            setQuestion({
+              ...question,
+              nivel_de_dificuldade: e.target.value
+            })
           }
         >
           <option value="">Nível de Dificuldade</option>
@@ -102,11 +105,18 @@ export default function QuestionCreateForm({
           <option value="Difícil">Difícil</option>
         </select>
 
+        {error && (
+          <p className={styles.errorMessage}>{error}</p>
+        )}
+
         <div className={styles.formButtons}>
           <button onClick={handleSubmit}>
             {isEdit ? "Salvar" : "Criar"}
           </button>
-          <button className={styles.cancelBtn} onClick={close}>
+          <button
+            className={styles.cancelBtn}
+            onClick={close}
+          >
             Cancelar
           </button>
         </div>

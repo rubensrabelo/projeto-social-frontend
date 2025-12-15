@@ -302,3 +302,9 @@ h1 {
 .confirmCancelBtn:hover {
   background: #cfd3d3;
 }
+
+.errorMessage {
+  color: #ff0000;
+  margin-top: 10px;
+  font-size: 14px;
+}
