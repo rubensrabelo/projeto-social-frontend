@@ -8,7 +8,6 @@ import { GetExamsService } from "../../api/services/student/GetExamsService";
 export default function StudentsHome() {
     
     const student = getUserSession();
-    // console.log(student);
 
     const [exams, setExams] = useState<Exam[]>([]);
 
@@ -35,6 +34,7 @@ export default function StudentsHome() {
 
             <ExamsTable
             exams={exams}
+            student={student}
             />
         </div>
     );

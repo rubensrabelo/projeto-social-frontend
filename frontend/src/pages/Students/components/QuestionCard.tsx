@@ -13,11 +13,12 @@ interface Props {
     correta: string;
   };
   selected?: string; // alternativa escolhida
+  disabled: boolean;
   onSelect: (alt: string) => void;
   reviewMode?: boolean;
 }
 
-export default function QuestionCard({ question, selected, onSelect, reviewMode }: Props) {
+export default function QuestionCard({ question, selected, disabled, onSelect, reviewMode }: Props) {
   const alternativas = [
     { key: "a", texto: question.alternativa_a },
     { key: "b", texto: question.alternativa_b },
@@ -51,6 +52,7 @@ export default function QuestionCard({ question, selected, onSelect, reviewMode 
             <input
                 type="radio"
                 name={`q-${question.id}`}
+                disabled = {disabled}
                 checked={selected === alt.key}
                 onChange={() => onSelect(alt.key)}
               />

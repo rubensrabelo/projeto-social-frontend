@@ -34,6 +34,13 @@
   color: #008f7b;
   font-weight: 600;
 }
+.textBody {
+  font-size: 22px;
+  color: #656b68;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 28px;
+}
 
 .filters {
   display: flex;

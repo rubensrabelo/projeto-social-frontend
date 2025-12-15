@@ -60,11 +60,26 @@ input[type="radio"] {
   background: #DDFFE6;
 }
 
-.backBtn {
+.pagination{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: space-between;
+}
+.textPagination{
+  color: #2f3d37;
+  font-size: 16px;
+  font-weight:600;
+  font-family: "Poppins", sans-serif;
+  margin-top: 20px;
+}
+
+.navigateBtn {
   margin-top: 20px;
   padding: 12px 20px;
   background: #054c44;
   font-family: "Poppins", sans-serif;
+  font-size: 16px;
   font-weight: 600;
   border: none;
   color: white;
@@ -72,7 +87,7 @@ input[type="radio"] {
   cursor: pointer;
 }
 
-.backBtn:hover {
+.navigateBtn:hover {
   margin-top: 20px;
   padding: 12px 20px;
   background: #1B876C;
@@ -129,6 +144,13 @@ input[type="radio"] {
   color:#1B876C;
   font-size: 24px;
   margin-bottom: 20px;
+}
+.timerWarning {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #d32f2f;
 }
 
 .finishBtn {

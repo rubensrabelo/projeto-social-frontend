@@ -7,9 +7,18 @@ export default function ExamResultPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { questions, answers } = location.state;
-
-  const correctCount = questions.filter((q: Question) => answers[q.id!] === q.correta).length;
+  // Proteção contra refresh ou acesso direto
+  if (!location.state) {
+    return (
+      <div className={styles.container}>
+        <p>Resultado não disponível.</p>
+        <button onClick={() => navigate("/student")}>
+          Voltar
+        </button>
+      </div>
+    );
+  }
+  const { questions, answers, nota } = location.state;
 
   return (
     <div className={styles.container}>
@@ -23,13 +32,11 @@ export default function ExamResultPage() {
             question={q}
             selected={answers[q.id!]}
             reviewMode={true}
+            disabled = {true}
             onSelect={(alt) => answers(q.id!, alt)}
           />
         ))}
 
-        <button className={styles.backBtn} onClick={() => navigate(-1)}>
-          Voltar
-        </button>
       </div>
 
       {/*sidebar*/}
@@ -38,14 +45,14 @@ export default function ExamResultPage() {
         <div className={styles.progressCard}>
           <h3>Pontuação</h3>
           <p className={styles.progressCount}>
-            {correctCount}/{questions.length}
+            {nota.toFixed(1)}
           </p>
 
           <button 
             className={styles.finishBtn}
             onClick={() => navigate("/student")}
           >
-            Finalizar
+            Finalizar Revisão
           </button>
         </div>
       </div>
