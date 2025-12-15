@@ -16,6 +16,7 @@ export default function AddTeacherModal({ idClass, onClose, reload }: Props) {
 
     const [teachers, setTeachers] = useState<any[]>([]);
     const [selectedTeacher, setSelectedTeacher] = useState("");
+    const [error, setError] = useState("");
 
     useEffect(() => {
         const load = async () => {
@@ -26,7 +27,7 @@ export default function AddTeacherModal({ idClass, onClose, reload }: Props) {
     }, [coordinatorId]);
 
     const handleAdd = async () => {
-        if (!selectedTeacher) return alert("Selecione um professor");
+        if (!selectedTeacher) return setError("Selecione um professor");
 
         console.log(idClass, coordinatorId, {
             selectedTeacher,
@@ -55,6 +56,8 @@ export default function AddTeacherModal({ idClass, onClose, reload }: Props) {
                         </option>
                     ))}
                 </select>
+
+                {error && <p className={styles.errorMessage}>{error}</p>}
 
                 <div className={styles.modalButtons}>
                     <button className={styles.confirmBtn} onClick={handleAdd}>

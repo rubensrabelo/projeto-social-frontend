@@ -34,14 +34,17 @@
   gap: 14px;
   margin-bottom: 28px;
   align-items: center;
-  flex-wrap: wrap; /* permite quebra em telas pequenas */
+  flex-wrap: wrap;
+  /* permite quebra em telas pequenas */
 }
+
 .optionsAdd {
   display: flex;
   gap: 14px;
   margin-bottom: 28px;
   align-items: center;
-  flex-wrap: wrap; /* permite quebra em telas pequenas */
+  flex-wrap: wrap;
+  /* permite quebra em telas pequenas */
 }
 
 .filters select {
@@ -92,9 +95,20 @@
   animation: fadeBg 0.25s ease forwards;
 }
 
+.errorMessage {
+  color: #ff0000;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
 @keyframes fadeBg {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .modalBox {
@@ -102,7 +116,8 @@
   padding: 10px;
   border-radius: 20px;
   width: 520px;
-  max-width: 95%; /* responsivo */
+  max-width: 95%;
+  /* responsivo */
   max-height: 85vh;
   display: flex;
   flex-direction: column;
@@ -120,8 +135,15 @@
 }
 
 @keyframes slideIn {
-  from { opacity: 0; transform: translateY(-12px) scale(0.97); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .modalTitle {
@@ -130,12 +152,14 @@
   color: #024e45;
   margin-bottom: 10px;
 }
+
 .modalSubtitle {
   font-size: 18px;
   font-weight: 600;
   color: #024e45;
   margin-bottom: 10px;
 }
+
 .alunoList {
   font-size: 18px;
   font-weight: 400;
@@ -187,6 +211,7 @@
   margin-top: 18px;
   flex-wrap: wrap;
 }
+
 .modalOptions {
   display: flex;
   justify-content: center;
@@ -229,9 +254,10 @@
   /* padding: 8px; */
   border-radius: 8px;
   border: 1px solid #cde5d7;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
   margin-top: 20px;
-  overflow-x: auto; /* permite rolagem horizontal em telas pequenas */
+  overflow-x: auto;
+  /* permite rolagem horizontal em telas pequenas */
 }
 
 .table {
@@ -239,7 +265,8 @@
   border-collapse: collapse;
   border-radius: 8px;
   overflow: hidden;
-  min-width: 720px; /* evita colapso excessivo das colunas em desktop */
+  min-width: 720px;
+  /* evita colapso excessivo das colunas em desktop */
 }
 
 .table th {
@@ -295,19 +322,19 @@
 }
 
 .detailBtn {
-    background-color: #024e45;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.2s ease;
-    font-weight: 500;
+  background-color: #024e45;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-weight: 500;
 }
 
 .detailBtn:hover {
-    background-color: #1B876C;
+  background-color: #1B876C;
 }
 
 /* =========================
@@ -316,49 +343,129 @@
 
 /* Tablets and small desktops */
 @media (max-width: 992px) {
-  .container { padding: 32px 20px; }
+  .container {
+    padding: 32px 20px;
+  }
 
-  .title { font-size: 28px; }
+  .title {
+    font-size: 28px;
+  }
 
-  .modalBox { width: 480px; max-width: 92%; }
-  .modalScroll { padding: 20px; max-height: 72vh; }
+  .modalBox {
+    width: 480px;
+    max-width: 92%;
+  }
 
-  .table { min-width: 640px; }
-  .table th, .table td { padding: 10px; font-size: 13px; }
+  .modalScroll {
+    padding: 20px;
+    max-height: 72vh;
+  }
+
+  .table {
+    min-width: 640px;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px;
+    font-size: 13px;
+  }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .container { padding: 20px 16px; }
+  .container {
+    padding: 20px 16px;
+  }
 
-  .title { font-size: 22px; margin-bottom: 18px; }
+  .title {
+    font-size: 22px;
+    margin-bottom: 18px;
+  }
 
   /* filtros empilham e ocupam largura completa */
-  .filters { gap: 10px; }
-  .filters select { flex: 1 1 100%; min-width: 0; }
-  .newBtn { width: 100%; flex: 1 1 100%; }
+  .filters {
+    gap: 10px;
+  }
+
+  .filters select {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .newBtn {
+    width: 100%;
+    flex: 1 1 100%;
+  }
 
   /* Modal menor e mais confortável em mobile */
-  .modalBox { width: 92%; padding: 8px; border-radius: 16px; }
-  .modalScroll { padding: 16px; max-height: 75vh; gap: 12px; }
-  .modalTitle { font-size: 20px; }
+  .modalBox {
+    width: 92%;
+    padding: 8px;
+    border-radius: 16px;
+  }
 
-  .modalActions { justify-content: center; }
-  .modalCancel, .modalSave { width: 48%; }
+  .modalScroll {
+    padding: 16px;
+    max-height: 75vh;
+    gap: 12px;
+  }
+
+  .modalTitle {
+    font-size: 20px;
+  }
+
+  .modalActions {
+    justify-content: center;
+  }
+
+  .modalCancel,
+  .modalSave {
+    width: 48%;
+  }
 
   /* Tabela se torna rolável horizontalmente */
-  .table { min-width: 600px; }
-  .table th, .table td { font-size: 13px; padding: 8px; }
+  .table {
+    min-width: 600px;
+  }
+
+  .table th,
+  .table td {
+    font-size: 13px;
+    padding: 8px;
+  }
 
   /* Ajuste de botões dentro da tabela */
-  .editBtn, .deleteBtn { padding: 6px 10px; font-size: 13px; margin: 0 4px; }
+  .editBtn,
+  .deleteBtn {
+    padding: 6px 10px;
+    font-size: 13px;
+    margin: 0 4px;
+  }
 }
 
 /* Very small devices */
 @media (max-width: 420px) {
-  .title { font-size: 20px; }
-  .modalTitle { font-size: 18px; }
-  .modalBox { width: 96%; max-width: 96%; }
-  .modalCancel, .modalSave { width: 100%; }
-  .modalActions { flex-direction: column; gap: 8px; }
+  .title {
+    font-size: 20px;
+  }
+
+  .modalTitle {
+    font-size: 18px;
+  }
+
+  .modalBox {
+    width: 96%;
+    max-width: 96%;
+  }
+
+  .modalCancel,
+  .modalSave {
+    width: 100%;
+  }
+
+  .modalActions {
+    flex-direction: column;
+    gap: 8px;
+  }
 }

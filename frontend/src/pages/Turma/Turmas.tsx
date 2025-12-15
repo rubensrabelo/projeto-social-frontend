@@ -32,6 +32,7 @@ export default function Turmas() {
   };
 
   const [newTurma, setNewTurma] = useState<Turma>(emptyTurma);
+  const [error, setError] = useState<string>("")
 
   const user = getUserSession();
 
@@ -46,8 +47,10 @@ export default function Turmas() {
 
   // CREATE
   const handleCreate = async () => {
+    setError("");
+
     if (!newTurma.ano || !newTurma.curso) {
-      alert("Preencha todos os campos.");
+      setError("Preencha todos os campos.");
       return;
     }
 
@@ -133,7 +136,8 @@ export default function Turmas() {
           newTurma={newTurma}
           setNewTurma={setNewTurma}
           handleSubmit={handleCreate}
-          close={() => setCreating(false)}
+          error={error}
+          close={() => { setError(""), setCreating(false)}}
         />
       )}
 
@@ -142,7 +146,8 @@ export default function Turmas() {
           newTurma={newTurma}
           setNewTurma={setNewTurma}
           handleSubmit={handleEdit}
-          close={() => setEditing(false)}
+          error={error}
+          close={() => { setError(""), setEditing(false) }}
           isEdit
         />
       )}

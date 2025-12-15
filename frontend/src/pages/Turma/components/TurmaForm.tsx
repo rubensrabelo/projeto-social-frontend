@@ -5,6 +5,7 @@ interface Props {
   newTurma: Turma;
   setNewTurma: (e: Turma) => void;
   handleSubmit: () => void;
+  error: string;
   close: () => void;
   isEdit?: boolean;
 }
@@ -13,6 +14,7 @@ export default function TurmaCreateForm({
   newTurma,
   setNewTurma,
   handleSubmit,
+  error,
   close,
   isEdit = false,
 }: Props) {
@@ -49,6 +51,8 @@ export default function TurmaCreateForm({
             <option value="Informática">Informática</option>
           </select>
         </div>
+
+        {error && <p className={styles.errorMessage}>{error}</p>}
 
         <div className={styles.modalActions}>
           <button className={styles.modalCancel} onClick={close}>
