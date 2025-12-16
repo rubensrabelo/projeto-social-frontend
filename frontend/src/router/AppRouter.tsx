@@ -14,6 +14,7 @@ import StudentsHome from "../pages/Students/StudentsHome";
 import AnswerExam from "../pages/Students/AnswerExams";
 import ExamResult from "../pages/Students/ExamResult";
 import ExamCreatePage from "../pages/Exams/subpage/ExamCreatePage";
+import ExamsReport from "../pages/ExamsReport/ExamsReport";
 
 function AppRouter() {
     return (
@@ -34,8 +35,9 @@ function AppRouter() {
                     <Route path="turmas" element={<Turmas />} />
                     <Route path="turmas/:id" element={<TurmaDetails />} />
                     <Route path="student" element={<StudentsHome />} />
-                    <Route path="student/answerExam/:examId/:professorId/:bankId" element={<AnswerExam />} />
+                    <Route path="student/answerExam/:examId/:professorId" element={<AnswerExam />} />
                     <Route path="student/examResult/:examId" element={<ExamResult />} />
+                    <Route path="reports" element={<ExamsReport />} />
                 </Route>
             </Routes>
         </BrowserRouter>

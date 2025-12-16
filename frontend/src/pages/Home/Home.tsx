@@ -65,7 +65,7 @@ export default function Home() {
         <CardOption
           title="Relatórios"
           Icon={HistogramIcon}
-          onClick={() => navigate("/reports")}
+          onClick={() => navigate(`/reports?type=${type}`)}
         />
 
       </div>

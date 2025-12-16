@@ -68,11 +68,11 @@ export default function QuestionCreateForm({
           }
         >
           <option value="">Alternativa correta</option>
-          <option value="A">Alternativa A</option>
-          <option value="B">Alternativa B</option>
-          <option value="C">Alternativa C</option>
-          <option value="D">Alternativa D</option>
-          <option value="E">Alternativa E</option>
+          <option value={question.alternativa_a}>Alternativa A</option>
+          <option value={question.alternativa_b}>Alternativa B</option>
+          <option value={question.alternativa_c}>Alternativa C</option>
+          <option value={question.alternativa_d}>Alternativa D</option>
+          <option value={question.alternativa_e}>Alternativa E</option>
         </select>
 
         <select

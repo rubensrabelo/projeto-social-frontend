@@ -32,7 +32,7 @@ export default function QuestionCard({ question, selected, disabled, onSelect, r
   return (
     <div className={styles.questionBox}>
       <p className={styles.questionText}>
-        {question.id} — {question.enunciado}
+        {question.enunciado}
       </p>
 
       {alternativas.map((alt) => {

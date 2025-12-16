@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styles from "../../Students/StudentsHome.module.css";
 import type { Exam } from "../../Students/types/ExamsType";
-import { GetGabaritoService } from "../../../api/services/student/GetGabaritosService";
+import { GetGabaritoService } from "../../../api/services/gabaritos/GetGabaritosService";
 import type { Aluno } from "../../Turma/types/AlunoType";
 import { useState, useEffect } from "react";
 
@@ -13,9 +13,8 @@ interface Props {
 async function isExamAvailable(exam: Exam, student_matriculation: number): Promise<boolean> {
     const currentDate = new Date()
 
-    const [day, month, year] = exam.dia_a_ser_realizada.split('/')
-    const examDate = new Date(`${year}-${month}-${day}T${exam.hora_a_ser_liberada}`)
-    
+    const examDate = new Date(exam.dia_a_ser_realizada)
+
     const examsFinisheds = (await GetGabaritoService(student_matriculation)) ?? []
     
     // Verifica se a prova esta disponível
@@ -94,7 +93,7 @@ export default function ExamsTable({ exams, student }: Props) {
                             <td>
                                 <button 
                                 className={styles.answerBtn}
-                                onClick={() => navigate(`/student/answerExam/${e._id}/${e.professor_id}/${e.banco_questao_id}`)}
+                                onClick={() => navigate(`/student/answerExam/${e._id}/${e.professor_id}`)}
                                >
                                     Iniciar Prova
                                 </button>

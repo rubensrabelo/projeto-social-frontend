@@ -1,0 +1,233 @@
+.container {
+  background: #dff7e8;
+  min-height: 100vh;
+  padding: 40px 30px;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.backBtn {
+  background: #03695b;
+  color: #fff;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 600;
+  margin-bottom: 20px;
+  transition: 0.2s ease;
+}
+
+
+.backBtn:hover {
+  background: #1B876C;
+}
+
+.searchBtn {
+  background: #03695b;
+  color: #fff;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 600;
+  transition: 0.2s ease;
+  flex: 1;
+}
+
+.searchBtn:hover {
+  background: #1B876C;
+}
+
+
+.title {
+  font-size: 28px;
+  margin-bottom: 28px;
+  color: #024e45;
+  font-weight: 700;
+}
+.subtitle {
+  font-size: 22px;
+  margin-bottom: 28px;
+  color: #008f7b;
+  font-weight: 600;
+}
+.textBody {
+  font-size: 22px;
+  color: #656b68;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 28px;
+}
+
+.textLabel {
+  font-size: 18px;
+  color: #2f3d37;
+  font-weight: 600;
+}
+
+.filters {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 28px;
+  align-items: center;
+  flex-wrap: wrap; /* permite quebra em telas pequenas */
+}
+.optionsAdd {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 28px;
+  align-items: center;
+  flex-wrap: wrap; /* permite quebra em telas pequenas */
+}
+
+.filters select {
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #b7d6c9;
+  background: #ffffff;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  transition: 0.2s ease;
+  min-width: 160px;
+  flex: 5;
+}
+
+.filters select:hover {
+  border-color: #008f7b;
+}
+
+@keyframes fadeBg {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.multipleBox {
+  background: #eef9f4;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid #cfe8dc;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: #004940
+}
+.tableWrapper {
+  background: #ffffff;
+  /* padding: 8px; */
+  border-radius: 8px;
+  border: 1px solid #cde5d7;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  margin-top: 20px;
+  overflow-x: auto; /* permite rolagem horizontal em telas pequenas */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 720px; /* evita colapso excessivo das colunas em desktop */
+}
+
+.table th {
+  background: #024e45;
+  color: white;
+  padding: 14px;
+  text-align: center;
+  font-family: "Poppins", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #e6e6e6;
+  text-align: center;
+  font-size: 14px;
+  color: #2f3d37;
+  white-space: nowrap;
+}
+
+.detailBtn {
+    background-color: #024e45;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    font-weight: 500;
+}
+
+.detailBtn:hover {
+    background-color: #1B876C;
+}
+
+/* =========================
+   Responsive Styles
+   ========================= */
+
+/* Tablets and small desktops */
+@media (max-width: 992px) {
+  .container { padding: 32px 20px; }
+
+  .title { font-size: 28px; }
+
+  .modalBox { width: 480px; max-width: 92%; }
+  .modalScroll { padding: 20px; max-height: 72vh; }
+
+  .table { min-width: 640px; }
+  .table th, .table td { padding: 10px; font-size: 13px; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .container { padding: 20px 16px; }
+
+  .title { font-size: 22px; margin-bottom: 18px; }
+
+  /* filtros empilham e ocupam largura completa */
+  .filters { gap: 10px; }
+  .filters select { flex: 1 1 100%; min-width: 0; }
+  .newBtn { width: 100%; flex: 1 1 100%; }
+
+  /* Modal menor e mais confortável em mobile */
+  .modalBox { width: 92%; padding: 8px; border-radius: 16px; }
+  .modalScroll { padding: 16px; max-height: 75vh; gap: 12px; }
+  .modalTitle { font-size: 20px; }
+
+  .modalActions { justify-content: center; }
+  .modalCancel, .modalSave { width: 48%; }
+
+  /* Tabela se torna rolável horizontalmente */
+  .table { min-width: 600px; }
+  .table th, .table td { font-size: 13px; padding: 8px; }
+
+  /* Ajuste de botões dentro da tabela */
+  .editBtn, .deleteBtn { padding: 6px 10px; font-size: 13px; margin: 0 4px; }
+}
+
+/* Very small devices */
+@media (max-width: 420px) {
+  .title { font-size: 20px; }
+  .modalTitle { font-size: 18px; }
+  .modalBox { width: 96%; max-width: 96%; }
+  .modalCancel, .modalSave { width: 100%; }
+  .modalActions { flex-direction: column; gap: 8px; }
+}

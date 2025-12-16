@@ -4,14 +4,19 @@ import { useParams, useNavigate } from "react-router-dom";
 import QuestionCard from "././components/QuestionCard"
 import type { Question } from "../Questions/types/QuestionType";
 import { GetExamByIdService } from "../../api/services/student/GetExamsService";
-import { GetQuestionExamService } from "../../api/services/student/GetQuestionsExamService";
+import { GetQuestionByIdTitleService } from "../../api/services/student/GetQuestionByIdTitleService";
+// import { GetQuestionExamService } from "../../api/services/student/GetQuestionsExamService";
 import ConfirmDialog from "../Questions/components/ConfirmDialog";
 import { getUserSession } from "../../utils/session/getUserSession";
-import { CreateGabaritoService } from "../../api/services/student/CreateGabaritoService";
+import { CreateGabaritoService } from "../../api/services/gabaritos/CreateGabaritoService";
 
+interface QuestaoResumo{
+  id: number;
+  enunciado: string;
+};
 
 export default function AnswerExamPage() {
-  const { examId, professorId, bankId } = useParams();
+  const { examId, professorId} = useParams();
   const student = getUserSession()
   const navigate = useNavigate();
 
@@ -32,49 +37,63 @@ export default function AnswerExamPage() {
   const startIndex = currentPage * pageSize;
   const endIndex = startIndex + pageSize;
   const currentQuestions = questions.slice(startIndex, endIndex); // Pega o intervalo de questões
-  const totalPages = Math.ceil(questions.length / pageSize);
+  const totalPages = Math.max(Math.ceil(questions.length / pageSize), 1);
   const lastPageIndex = totalPages - 1;
   
   // busca questões em lotes para evitar sobrecarga
-  async function fetchInBatches(ids: number[], batchSize : number) {
+  async function fetchInBatches(
+    questoes: QuestaoResumo[],
+    batchSize: number
+  ) {
+    const results: Question[] = [];
 
-  const results: any[] = [];
+    for (let i = 0; i < questoes.length; i += batchSize) {
+      const batch = questoes.slice(i, i + batchSize);
+      console.log("📦 LOTE:", batch);
 
-  for (let i = 0; i < ids.length; i += batchSize) {
-    const batch = ids.slice(i, i + batchSize);
+      const batchResults = await Promise.all(
+        batch.map(q =>
+          GetQuestionByIdTitleService(q.id, q.enunciado)
+        )
+      );
 
-    const batchResults = await Promise.all(
-      batch.map(qid =>
-        GetQuestionExamService(professorId!, Number(bankId), qid)
-      )
-    );
+      results.push(...batchResults);
+    }
 
-    results.push(...batchResults);
-  }
-
-    return results; 
+    return results;
   }
 
   // Chamar a API para buscar as questões da prova
   useEffect(() => {
     async function fetchQuestions() {
-      if (!professorId || !bankId || !examId) return;
+      console.log("🚀 fetchQuestions EXECUTOU");
+      console.log("PARAMS:", { examId, professorId });
+
+      if (!professorId || !examId) {
+        console.log("XXX faltando coisa");
+        return;
+      }
+        
 
       const examData = await GetExamByIdService(professorId, examId);
-      // pega o nome da prova
-      setExamTitle(examData.titulo)
+      console.log("📦 examData:", examData);
 
-      const questionIds = examData.questoes_id || [];
+      setExamTitle(examData.titulo);
 
-      // carrega as questões em lote
-      const questionsData = await fetchInBatches(questionIds, 5);
+      const questoesResumo = examData.questoes || [];
+      console.log("🧩 questoesResumo:", questoesResumo);
 
-      // seta uma vez só
+      if (questoesResumo.length === 0) return;
+
+      const questionsData = await fetchInBatches(questoesResumo, 5);
+      console.log("📊 questionsData:", questionsData);
+
       setQuestions(questionsData);
     }
 
     fetchQuestions();
-  }, [professorId, bankId, examId]);
+  }, [professorId, examId]);
+
 
   // Atualiza a pagina atual (garante que não ultrapassa o número de paginas totais)
   useEffect(() => {
@@ -86,7 +105,8 @@ export default function AnswerExamPage() {
   // Inicia o temporizador e guarda o tempo em localStorage
   useEffect(() => {
     if (!examId) return;
-
+    // 🧹 Se quiser SEMPRE reiniciar ao entrar
+    localStorage.removeItem(storageKey);
     let endTime = localStorage.getItem(storageKey);
 
     if (!endTime) {
@@ -151,8 +171,20 @@ export default function AnswerExamPage() {
         const respostaAluno = answers[q.id!];
 
         if (!respostaAluno) return acc; // ignorar não respondidas
+        const mapaAlternativas: Record<string, string | undefined> = {
+          a: q.alternativa_a,
+          b: q.alternativa_b,
+          c: q.alternativa_c,
+          d: q.alternativa_d,
+          e: q.alternativa_e,
+        };
 
-        if (respostaAluno === q.correta) {
+        const respostaTexto = mapaAlternativas[respostaAluno];
+
+        console.log("Resposta aluno (texto):", respostaTexto);
+        console.log("Correta:", q.correta);
+
+        if (respostaTexto === q.correta) {
           acc.acertadas.push(q.id!);
         } else {
           acc.erradas.push(q.id!);
@@ -217,7 +249,7 @@ export default function AnswerExamPage() {
           <button
             className={styles.navigateBtn}
             disabled={currentPage === 0}
-            onClick={() => setCurrentPage((p) => p - 1)}
+            onClick={() => setCurrentPage(p => Math.max(p - 1, 0))}
           >
             Anterior
           </button>
@@ -229,7 +261,7 @@ export default function AnswerExamPage() {
           <button
             className={styles.navigateBtn}
             disabled={currentPage === lastPageIndex}
-            onClick={() => setCurrentPage((p) => p + 1)}
+            onClick={() => setCurrentPage(p => Math.min(p + 1, lastPageIndex))}
           >
             Próxima
           </button>

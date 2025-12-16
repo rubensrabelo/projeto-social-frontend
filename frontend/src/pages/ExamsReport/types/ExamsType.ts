@@ -1,5 +1,5 @@
 export interface Exam {
-  _id: string;            // chave real do backend
+  id?: string;
   titulo: string;
   quantidade_questoes: number;
   turmas: number[];
